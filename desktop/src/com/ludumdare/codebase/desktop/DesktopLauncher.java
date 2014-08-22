@@ -2,11 +2,16 @@ package com.ludumdare.codebase.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.ludumdare.codebase.Ludumdare30;
+import com.ludumdare.codebase.Ludumdare30Main;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new Ludumdare30(), config);
+		
+		config.resizable 	= true;
+		config.useGL30 		= true;
+		
+		
+		new LwjglApplication(new Ludumdare30Main(), config);
 	}
 }
