@@ -3,8 +3,7 @@ Ludumdare 30 Project
 
 Required SDKs and Tools for building and compiling
 * LibGdx (Tested with LibGdx 1.3.6)
-* GWT for HTML
-
+* GWT for HTML (Requires chrome / firefox 26 or lower with gwt plugin)
 
 
 
