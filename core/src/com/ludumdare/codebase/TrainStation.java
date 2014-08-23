@@ -11,7 +11,7 @@ public class TrainStation extends Scene
         SpriteObject obj;
         addObject(new Train(-2000, 192));
         addObject(obj = new LivingHouse(), -720, 150);
-        obj.setLayer(100);
+        obj.setLayer(-300);
 
     }
 }
