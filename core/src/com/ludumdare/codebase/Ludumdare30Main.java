@@ -4,11 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -62,8 +64,6 @@ public class Ludumdare30Main extends ApplicationAdapter
             renderer = new Renderer(cameraControl);
         }
 
-        sr = new ShapeRenderer();
-
         activeScene = new TrainStation();
 
         Gdx.input.setInputProcessor(new InputAdapter()
@@ -75,12 +75,12 @@ public class Ludumdare30Main extends ApplicationAdapter
                 mousePosition.x = v.x;
                 mousePosition.y = v.y;
 
-                System.out.println(screenX + ", " + screenY);
                 return true;
             }
         });
 
         homeGroup = new HomeSceneGroup();
+        sr = new ShapeRenderer();
     }
 
     float degree = 0.0f;
@@ -89,31 +89,8 @@ public class Ludumdare30Main extends ApplicationAdapter
     @Override
     public void render()
     {
-        // degree = degree + 1.0f;
-        //
-        // renderer.drawSprite(img, positon2.x, positon2.y, 30);
-        // renderer.drawSprite(img, position.x, position.y, -100);
-        //
-        // positon2.x = 50 + MathUtils.cosDeg(45 + degree) * 100.0f;
-        // positon2.y = 50 + MathUtils.sinDeg(45 + degree) * 100.0f;
-        //
-        // position.x = MathUtils.cosDeg(degree) * 50;
-        // position.y = MathUtils.sinDeg(degree) * 50;
-        //
-        // renderer.renderAll();
-        // renderer.clearList();
-
-        // activeScene.update();
-        // activeScene.render(renderer);
-
         homeGroup.update();
         homeGroup.render(renderer);
-
-        // renderer.drawSprite(img, 0, 0, 100.0f);
-        // renderer.drawSprite(img, mousePosition.x, mousePosition.y, 0.1f);
-
-        renderer.renderAll();
-        renderer.clearList();
     }
 
     @Override

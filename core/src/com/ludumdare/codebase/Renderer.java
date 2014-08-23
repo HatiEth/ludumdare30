@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Pool;
@@ -13,6 +14,8 @@ public class Renderer
 {
     SpriteMesh spriteMesh;
     ShaderProgram spriteShader;
+
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     final Camera2DControl cameraControl;
 
@@ -83,6 +86,8 @@ public class Renderer
 
         cameraControl.beginDraw();
 
+        shapeRenderer.setProjectionMatrix(cameraControl.getCamera().combined);
+
         Gdx.gl.glDepthMask(false);
         Gdx.gl.glEnable(GL20.GL_TEXTURE_2D);
 
@@ -113,5 +118,14 @@ public class Renderer
             i.meshtype.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
         }
         spriteShader.end();
+
+        clearList();
     }
+
+    public ShapeRenderer getShapeRenderer()
+    {
+
+        return shapeRenderer;
+    }
+
 }
