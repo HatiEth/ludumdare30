@@ -1,9 +1,11 @@
 package com.ludumdare.codebase;
 
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 
 public class RenderInfo implements Comparable<RenderInfo>
 {
+    Mesh meshtype;
     Texture texture;
 
     float width;

@@ -23,4 +23,13 @@ public abstract class SpriteObject extends GameObject
         renderer.drawSprite(spriteHandle, position.x, position.y, layer);
     }
 
+    public void setLayer(float layer)
+    {
+        this.layer = layer;
+    }
+
+    public float getLayer()
+    {
+        return layer;
+    }
 }

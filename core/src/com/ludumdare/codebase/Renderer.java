@@ -66,6 +66,7 @@ public class Renderer
         info.texture = texture;
         info.width = texture.getWidth();
         info.height = texture.getHeight();
+        info.meshtype = spriteMesh;
 
         renderList.add(info);
 
@@ -108,7 +109,7 @@ public class Renderer
 
             spriteShader.setUniformf("i_position", i.x, i.y);
 
-            spriteMesh.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
+            i.meshtype.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
         }
         spriteShader.end();
     }

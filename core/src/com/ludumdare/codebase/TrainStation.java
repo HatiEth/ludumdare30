@@ -10,6 +10,7 @@ public class TrainStation extends Scene
     public TrainStation()
     {
         addObject(train = new Train());
+
     }
 
     @Override
