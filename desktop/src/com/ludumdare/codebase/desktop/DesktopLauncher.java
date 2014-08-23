@@ -9,6 +9,13 @@ public class DesktopLauncher
     public static void main(String[] arg)
     {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+        config.title = "Ludum Dare 30";
+        config.width = 960;
+        config.height = 540;
+        config.resizable = true;
+        config.foregroundFPS = 60;
+
         new LwjglApplication(new Ludumdare30Main(), config);
     }
 }
