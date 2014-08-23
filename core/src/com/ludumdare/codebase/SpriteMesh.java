@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 
+/**
+ * 
+ * @author Hati Eth
+ *
+ */
 public class SpriteMesh extends Mesh
 {
     public SpriteMesh()
@@ -24,28 +29,28 @@ public class SpriteMesh extends Mesh
                 0.0f,
                 0.0f,
                 1.0f,
-                Color.toFloatBits(255, 0, 0, 255),
+                Color.toFloatBits(255, 255, 255, 255),
 
                 +.50f,
                 -.50f,
                 0.0f,
                 1.0f,
                 1.0f,
-                Color.toFloatBits(255, 0, 0, 255),
+                Color.toFloatBits(255, 255, 255, 255),
 
                 -.50f,
                 +.50f,
                 0.0f,
                 0.0f,
                 0.0f,
-                Color.toFloatBits(255, 0, 0, 255),
+                Color.toFloatBits(255, 255, 255, 255),
 
                 +.50f,
                 +.50f,
                 0.0f,
                 1.0f,
                 0.0f,
-                Color.toFloatBits(255, 0, 0, 255)
+                Color.toFloatBits(255, 255, 255, 255)
         });
         // this.setVertices(new float[]
         // {
