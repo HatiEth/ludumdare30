@@ -69,6 +69,7 @@ public class Camera2DControl
         Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g,
                 backgroundColor.b, backgroundColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
     }
 
     private void handleDirtyFlag()
@@ -77,7 +78,6 @@ public class Camera2DControl
 
         virtualResolution.update(Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight());
-
     }
 
     public void setBackgroundColor(Color backgroundColor)
@@ -92,17 +92,15 @@ public class Camera2DControl
 
     public void resize(int width, int height)
     {
-
         virtualResolution.update(width, height);
-        projectiveZoomScale = (virtualResolution.getScreenWidth() / virtualResolution
-                .getScreenHeight()) / (worldAspectRatio);
-        camera.position.z = projectiveZoomScale * width * 0.5f;
+        camera.position.z = virtualResolution.getWorldWidth() * 0.5f;
 
+        isDirty = true;
     }
 
     public void setZ(float z)
     {
-        camera.position.z = projectiveZoomScale * z;
+        camera.position.z = z * 270.0f;
 
         isDirty = true;
     }
