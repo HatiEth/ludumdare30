@@ -1,15 +1,14 @@
 package com.ludumdare.codebase;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.ludumdare.util.Camera2DControl;
 
 public class Ludumdare30Main extends ApplicationAdapter
 {
@@ -21,6 +20,8 @@ public class Ludumdare30Main extends ApplicationAdapter
     PerspectiveCamera camera;
     FitViewport virtualResolution;
 
+    Camera2DControl cameraControl;
+
     @Override
     public void create()
     {
@@ -28,14 +29,9 @@ public class Ludumdare30Main extends ApplicationAdapter
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
 
-        camera = new PerspectiveCamera();
-
-        camera.position.set(0, 0, 500.0f); // caera looks towards -z
-        // (63.9 ... -100)
-        camera.lookAt(0, 0, 0);
-        camera.near = 0.1f;
-        camera.far = 1000.0f;
-        camera.update();
+        cameraControl = new Camera2DControl(1920, 1080);
+        cameraControl.setZ(100);
+        cameraControl.setPosition(0, 0);
 
         virtualResolution = new FitViewport(1920, 1080, camera);
         sr = new ShapeRenderer();
@@ -45,29 +41,6 @@ public class Ludumdare30Main extends ApplicationAdapter
     @Override
     public void render()
     {
-        final float GRAY_BG = 121.0f / 255.0f;
-
-        Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl.glScissor(0, 0, Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight());
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        virtualResolution.update(Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight());
-
-        Gdx.gl.glScissor(virtualResolution.getScreenX(),
-                virtualResolution.getScreenY(),
-                virtualResolution.getScreenWidth(),
-                virtualResolution.getScreenHeight());
-        // Gdx.gl.glClearColor(0, 0, 0, 1.0f);
-
-        Gdx.gl.glClearColor(GRAY_BG, GRAY_BG, GRAY_BG, 1.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //
-        // virtualResolution.apply(true);
-        // Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        //
         // // batch.setProjectionMatrix(camera.combined);
         // // batch.begin();
         // // batch.draw(img, 0, 0);
@@ -76,10 +49,15 @@ public class Ludumdare30Main extends ApplicationAdapter
         // //
         // //
         //
-        sr.setProjectionMatrix(camera.combined);
+
+        cameraControl.beginDraw();
+        sr.setProjectionMatrix(cameraControl.getCamera().combined);
         sr.begin(ShapeType.Filled);
 
         sr.rect(-16, -16, 32, 32, Color.RED, Color.BLUE, Color.GREEN,
+                Color.BLACK);
+
+        sr.rect(48 + -16, 48 + -16, 32, 32, Color.RED, Color.BLUE, Color.GREEN,
                 Color.BLACK);
         sr.end();
     }
@@ -88,6 +66,7 @@ public class Ludumdare30Main extends ApplicationAdapter
     public void resize(int width, int height)
     {
         super.resize(width, height);
+        cameraControl.resize(width, height);
     }
 
     @Override
