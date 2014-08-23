@@ -1,21 +1,17 @@
 package com.ludumdare.codebase;
 
+import com.ludumdare.codebase.gameobjects.SpriteObject;
 import com.ludumdare.codebase.gameobjects.Train;
 
 public class TrainStation extends Scene
 {
 
-    Train train;
-
     public TrainStation()
     {
-        addObject(train = new Train());
+        SpriteObject obj;
+        addObject(new Train(-2000, 192));
+        addObject(obj = new LivingHouse(), -720, 150);
+        obj.setLayer(-300);
 
     }
-
-    @Override
-    public void update()
-    {
-    }
-
 }

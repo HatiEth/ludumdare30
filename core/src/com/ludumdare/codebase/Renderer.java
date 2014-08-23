@@ -49,6 +49,7 @@ public class Renderer
 
         renderList = new Array<RenderInfo>(true, 1024);
         isDirty = false;
+
     }
 
     public void clearList()
@@ -107,7 +108,7 @@ public class Renderer
                 spriteShader.setUniformi("u_texture0", 0);
             }
 
-            spriteShader.setUniformf("i_position", i.x, i.y);
+            spriteShader.setUniformf("i_position", i.x, i.y, i.layer);
 
             i.meshtype.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
         }

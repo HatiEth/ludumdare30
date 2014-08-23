@@ -1,6 +1,9 @@
 package com.ludumdare.codebase;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,6 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.ludumdare.util.Camera2DControl;
 
 /**
@@ -29,6 +34,8 @@ public class Ludumdare30Main extends ApplicationAdapter
     Vector2 position;
 
     Scene activeScene;
+    Vector2 mousePosition = new Vector2();
+    Ray mouseRay;
 
     @Override
     public void create()
@@ -51,6 +58,21 @@ public class Ludumdare30Main extends ApplicationAdapter
         sr = new ShapeRenderer();
 
         activeScene = new TrainStation();
+
+        Gdx.input.setInputProcessor(new InputAdapter()
+        {
+            @Override
+            public boolean mouseMoved(int screenX, int screenY)
+            {
+                Vector3 v = cameraControl.screenToWorld(screenX, screenY);
+                mousePosition.x = v.x;
+                mousePosition.y = v.y;
+
+                System.out.println(screenX + ", " + screenY);
+                return true;
+            }
+        });
+
     }
 
     float degree = 0.0f;
@@ -75,6 +97,10 @@ public class Ludumdare30Main extends ApplicationAdapter
 
         activeScene.update();
         activeScene.render(renderer);
+
+        renderer.drawSprite(img, 0, 0, 100.0f);
+        // renderer.drawSprite(img, mouseRay.origin.x, mouseRay.origin.y, 0.1f);
+        renderer.drawSprite(img, mousePosition.x, mousePosition.y, 0.1f);
 
         renderer.renderAll();
         renderer.clearList();

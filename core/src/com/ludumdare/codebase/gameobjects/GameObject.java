@@ -17,4 +17,20 @@ public abstract class GameObject
     public abstract void update();
 
     public abstract void render(Renderer renderer);
+
+    public void setPosition(float x, float y)
+    {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    public void setPosition(Vector2 position)
+    {
+        this.position = position;
+    }
+
+    public Vector2 getPosition()
+    {
+        return position;
+    }
 }

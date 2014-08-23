@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -40,7 +41,7 @@ public class Camera2DControl
         isDirty = true;
 
         camera.near = 0.1f;
-        camera.far = 1000.0f;
+        camera.far = 2000.0f;
     }
 
     public Camera getCamera()
@@ -53,6 +54,8 @@ public class Camera2DControl
         return virtualResolution;
     }
 
+    boolean rotate = false;
+
     public void beginDraw()
     {
         Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
@@ -61,6 +64,13 @@ public class Camera2DControl
         Gdx.gl.glClearColor(scissorColor.r, scissorColor.g, scissorColor.b,
                 scissorColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        if (rotate)
+        {
+            camera.rotateAround(new Vector3(0, 0, 0), new Vector3(0, 1, 0),
+                    1.0f);
+            isDirty = true;
+        }
 
         if (isDirty)
         {
@@ -131,5 +141,25 @@ public class Camera2DControl
         camera.lookAt(x, y, 0);
 
         isDirty = true;
+    }
+
+    public Vector3 screenToWorld(float x, float y)
+    {
+        Vector3 v = new Vector3(x, y * -1, 0);
+        v.sub(virtualResolution.getScreenX(), -virtualResolution.getScreenY(),
+                0);
+
+        float ratioX = virtualResolution.getWorldWidth()
+                / virtualResolution.getScreenWidth();
+        float ratioY = virtualResolution.getWorldHeight()
+                / virtualResolution.getScreenHeight();
+
+        v.x = v.x * ratioX;
+        v.y = v.y * ratioY;
+
+        v.sub(virtualResolution.getWorldWidth() * 0.5f,
+                -virtualResolution.getWorldHeight() * 0.5f, 0);
+
+        return v;
     }
 }

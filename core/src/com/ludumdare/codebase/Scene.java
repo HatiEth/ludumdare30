@@ -21,7 +21,13 @@ public abstract class Scene
         objects = new Array<GameObject>(false, 128);
     }
 
-    public abstract void update();
+    public void update()
+    {
+        for (GameObject o : objects)
+        {
+            o.update();
+        }
+    }
 
     public void render(Renderer renderer)
     {
@@ -36,4 +42,9 @@ public abstract class Scene
         objects.add(o);
     }
 
+    public void addObject(GameObject o, float x, float y)
+    {
+        objects.add(o);
+        o.setPosition(x, y);
+    }
 }
