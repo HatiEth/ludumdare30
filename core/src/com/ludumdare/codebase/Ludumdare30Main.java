@@ -24,12 +24,11 @@ public class Ludumdare30Main extends ApplicationAdapter
     ShapeRenderer sr;
 
     Camera2DControl cameraControl;
-    SpriteMesh sprite;
-
-    ShaderProgram spriteShader;
 
     Renderer renderer;
     Vector2 position;
+
+    Scene activeScene;
 
     @Override
     public void create()
@@ -51,18 +50,7 @@ public class Ludumdare30Main extends ApplicationAdapter
 
         sr = new ShapeRenderer();
 
-        // spriteShader = new ShaderProgram(Gdx.files.internal("sprite.vert"),
-        // Gdx.files.internal("sprite.frag"));
-        // ShaderProgram.pedantic = false;
-        // String spriteShaderLog = spriteShader.getLog();
-        // if (!spriteShader.isCompiled())
-        // {
-        // throw new GdxRuntimeException(spriteShaderLog);
-        // }
-        // if (spriteShaderLog != null && spriteShaderLog.length() > 0)
-        // {
-        // System.out.println(spriteShaderLog);
-        // }
+        activeScene = new TrainStation();
     }
 
     float degree = 0.0f;
@@ -71,43 +59,25 @@ public class Ludumdare30Main extends ApplicationAdapter
     @Override
     public void render()
     {
+        // degree = degree + 1.0f;
+        //
+        // renderer.drawSprite(img, positon2.x, positon2.y, 30);
+        // renderer.drawSprite(img, position.x, position.y, -100);
+        //
+        // positon2.x = 50 + MathUtils.cosDeg(45 + degree) * 100.0f;
+        // positon2.y = 50 + MathUtils.sinDeg(45 + degree) * 100.0f;
+        //
+        // position.x = MathUtils.cosDeg(degree) * 50;
+        // position.y = MathUtils.sinDeg(degree) * 50;
+        //
+        // renderer.renderAll();
+        // renderer.clearList();
 
-        degree = degree + 1.0f;
-
-        renderer.drawSprite(img, positon2.x, positon2.y, 30);
-        renderer.drawSprite(img, position.x, position.y, -100);
-
-        positon2.x = 50 + MathUtils.cosDeg(45 + degree) * 100.0f;
-        positon2.y = 50 + MathUtils.sinDeg(45 + degree) * 100.0f;
-
-        position.x = MathUtils.cosDeg(degree) * 50;
-        position.y = MathUtils.sinDeg(degree) * 50;
+        activeScene.update();
+        activeScene.render(renderer);
 
         renderer.renderAll();
         renderer.clearList();
-
-        // Gdx.gl.glDepthMask(false);
-        // Gdx.gl.glEnable(GL20.GL_TEXTURE_2D);
-        //
-        // Gdx.gl.glEnable(GL20.GL_BLEND);
-        // Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        //
-        // spriteShader.begin();
-        // spriteShader.setUniformMatrix("u_projection",
-        // cameraControl.getCamera().combined);
-        //
-        // spriteShader.setUniform2fv("u_scale", new float[]
-        // {
-        // 600,
-        // 600
-        // }, 0, 2);
-        //
-        // img.bind();
-        // spriteShader.setUniformi("u_texture0", 0);
-        //
-        // sprite.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
-        //
-        // spriteShader.end();
     }
 
     @Override

@@ -30,6 +30,7 @@ public class Camera2DControl
         worldAspectRatio = virtualWidth / virtualHeight;
 
         camera = new PerspectiveCamera();
+
         virtualResolution = new FitViewport(virtualWidth, virtualHeight, camera);
 
         final float GRAY = 0.53333333333333333333333333333333f;
@@ -99,7 +100,12 @@ public class Camera2DControl
     public void resize(int width, int height)
     {
         virtualResolution.update(width, height);
-        camera.position.z = virtualResolution.getWorldWidth() * 0.5f;
+
+        // projectiveZoomScale = (virtualResolution.getScreenWidth() /
+        // virtualResolution
+        // .getScreenHeight()) / worldAspectRatio;
+
+        camera.position.z = virtualResolution.getWorldWidth() * 0.5f - 144;
 
         isDirty = true;
     }

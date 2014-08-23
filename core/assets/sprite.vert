@@ -1,4 +1,3 @@
-#version 110
 
 attribute vec3 a_position;
 attribute vec4 a_color;
