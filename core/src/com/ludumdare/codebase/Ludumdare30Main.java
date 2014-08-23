@@ -13,6 +13,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.ludumdare.codebase.scenes.HomeSceneGroup;
+import com.ludumdare.codebase.scenes.Scene;
+import com.ludumdare.codebase.scenes.SceneGroup;
+import com.ludumdare.codebase.scenes.TrainStation;
 import com.ludumdare.util.Camera2DControl;
 
 /**
@@ -34,6 +38,9 @@ public class Ludumdare30Main extends ApplicationAdapter
     Vector2 position;
 
     Scene activeScene;
+
+    SceneGroup homeGroup;
+
     Vector2 mousePosition = new Vector2();
     Ray mouseRay;
 
@@ -73,6 +80,7 @@ public class Ludumdare30Main extends ApplicationAdapter
             }
         });
 
+        homeGroup = new HomeSceneGroup();
     }
 
     float degree = 0.0f;
@@ -95,12 +103,14 @@ public class Ludumdare30Main extends ApplicationAdapter
         // renderer.renderAll();
         // renderer.clearList();
 
-        activeScene.update();
-        activeScene.render(renderer);
+        // activeScene.update();
+        // activeScene.render(renderer);
 
-        renderer.drawSprite(img, 0, 0, 100.0f);
-        // renderer.drawSprite(img, mouseRay.origin.x, mouseRay.origin.y, 0.1f);
-        renderer.drawSprite(img, mousePosition.x, mousePosition.y, 0.1f);
+        homeGroup.update();
+        homeGroup.render(renderer);
+
+        // renderer.drawSprite(img, 0, 0, 100.0f);
+        // renderer.drawSprite(img, mousePosition.x, mousePosition.y, 0.1f);
 
         renderer.renderAll();
         renderer.clearList();

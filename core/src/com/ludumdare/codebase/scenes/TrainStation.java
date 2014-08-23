@@ -1,7 +1,8 @@
-package com.ludumdare.codebase;
+package com.ludumdare.codebase.scenes;
 
 import com.ludumdare.codebase.gameobjects.SpriteObject;
 import com.ludumdare.codebase.gameobjects.Train;
+import com.ludumdare.codebase.gameobjects.TrainStationgHouse;
 
 public class TrainStation extends Scene
 {
@@ -10,7 +11,7 @@ public class TrainStation extends Scene
     {
         SpriteObject obj;
         addObject(new Train(-2000, 192));
-        addObject(obj = new LivingHouse(), -720, 150);
+        addObject(obj = new TrainStationgHouse(), -720, 150);
         obj.setLayer(-300);
 
     }

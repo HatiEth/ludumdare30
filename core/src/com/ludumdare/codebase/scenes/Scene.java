@@ -1,6 +1,7 @@
-package com.ludumdare.codebase;
+package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.utils.Array;
+import com.ludumdare.codebase.Renderer;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
 /**
@@ -35,6 +36,16 @@ public abstract class Scene
         {
             o.render(renderer);
         }
+    }
+
+    public void enter(Scene from)
+    {
+
+    }
+
+    public void leave(Scene to)
+    {
+
     }
 
     public void addObject(GameObject o)
