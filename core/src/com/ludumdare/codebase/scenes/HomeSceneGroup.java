@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
+import com.ludumdare.codebase.gameobjects.HaraldGO;
 
 public class HomeSceneGroup extends SceneGroup
 {
@@ -16,11 +19,12 @@ public class HomeSceneGroup extends SceneGroup
 
     ShapeRenderer sr;
 
-    public HomeSceneGroup()
+    public HomeSceneGroup(GameData gameData)
     {
-        sleepRoom = new SleepingRoomScene();
-        kitchen = new KitchenScene();
-        floor = new FloorScene();
+        super(gameData);
+        sleepRoom = new SleepingRoomScene(gameData);
+        kitchen = new KitchenScene(gameData);
+        floor = new FloorScene(gameData);
 
         setActiveScene(sleepRoom);
 
@@ -32,6 +36,11 @@ public class HomeSceneGroup extends SceneGroup
         addTransit(floor, sleepRoom, new Rectangle(960 - 64, -540, 64, 1080));
 
         sr = new ShapeRenderer();
+
+        gameData.haraldGameObject.setPosition(0, 0);
+        sleepRoom.pathEngine.setGameObject(gameData.haraldGameObject);
+        sleepRoom.addObject(gameData.haraldGameObject);
+
     }
 
     @Override
@@ -72,7 +81,7 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchUp(int screenX, int screenY, int pointer,
                     int button)
             {
-                // TODO Auto-generated method stub
+
                 return false;
             }
 
@@ -87,7 +96,8 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchDown(int screenX, int screenY, int pointer,
                     int button)
             {
-                // TODO Auto-generated method stub
+                activeScene.pathEngine.setTargetPosition(gameData.cameraControl
+                        .screenToWorld(screenX, screenY));
                 return false;
             }
 

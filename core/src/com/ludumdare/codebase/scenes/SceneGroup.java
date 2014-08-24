@@ -3,6 +3,7 @@ package com.ludumdare.codebase.scenes;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
 
 public class SceneGroup extends Scene
@@ -10,8 +11,9 @@ public class SceneGroup extends Scene
     protected Scene activeScene;
     Array<TransitZone> transitZones;
 
-    public SceneGroup()
+    public SceneGroup(GameData gameData)
     {
+        super(gameData);
         transitZones = new Array<TransitZone>();
     }
 

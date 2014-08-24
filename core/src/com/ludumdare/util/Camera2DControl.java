@@ -143,11 +143,10 @@ public class Camera2DControl
         isDirty = true;
     }
 
-    public Vector3 screenToWorld(float x, float y)
+    public Vector2 screenToWorld(float x, float y)
     {
-        Vector3 v = new Vector3(x, y * -1, 0);
-        v.sub(virtualResolution.getScreenX(), -virtualResolution.getScreenY(),
-                0);
+        Vector2 v = new Vector2(x, y * -1);
+        v.sub(virtualResolution.getScreenX(), -virtualResolution.getScreenY());
 
         float ratioX = virtualResolution.getWorldWidth()
                 / virtualResolution.getScreenWidth();
@@ -158,7 +157,7 @@ public class Camera2DControl
         v.y = v.y * ratioY;
 
         v.sub(virtualResolution.getWorldWidth() * 0.5f,
-                -virtualResolution.getWorldHeight() * 0.5f, 0);
+                -virtualResolution.getWorldHeight() * 0.5f);
 
         return v;
     }

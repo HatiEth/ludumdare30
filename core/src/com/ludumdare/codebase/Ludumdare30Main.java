@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.collision.Ray;
 import com.ludumdare.codebase.scenes.HomeSceneGroup;
 import com.ludumdare.codebase.scenes.Scene;
 import com.ludumdare.codebase.scenes.SceneGroup;
-import com.ludumdare.codebase.scenes.TrainStation;
+import com.ludumdare.codebase.scenes.TrainStationScene;
 import com.ludumdare.util.Camera2DControl;
 
 /**
@@ -32,19 +32,14 @@ public class Ludumdare30Main extends ApplicationAdapter
     SpriteBatch batch;
     Texture img;
 
-    ShapeRenderer sr;
-
-    Camera2DControl cameraControl;
-
     Renderer renderer;
     Vector2 position;
-
-    Scene activeScene;
 
     SceneGroup homeGroup;
 
     Vector2 mousePosition = new Vector2();
-    Ray mouseRay;
+
+    GameData gameData;
 
     @Override
     public void create()
@@ -56,31 +51,26 @@ public class Ludumdare30Main extends ApplicationAdapter
         img = new Texture("noTextureFound.png");
         img.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-        cameraControl = new Camera2DControl(1920, 1080);
-        cameraControl.setPosition(0, 0);
+        gameData = new GameData();
 
         if (renderer == null)
         {
-            renderer = new Renderer(cameraControl);
+            renderer = new Renderer(gameData.cameraControl);
         }
-
-        activeScene = new TrainStation();
 
         Gdx.input.setInputProcessor(new InputAdapter()
         {
             @Override
             public boolean mouseMoved(int screenX, int screenY)
             {
-                Vector3 v = cameraControl.screenToWorld(screenX, screenY);
-                mousePosition.x = v.x;
-                mousePosition.y = v.y;
+                mousePosition = gameData.cameraControl.screenToWorld(screenX,
+                        screenY);
 
                 return true;
             }
         });
 
-        homeGroup = new HomeSceneGroup();
-        sr = new ShapeRenderer();
+        homeGroup = new HomeSceneGroup(gameData);
     }
 
     float degree = 0.0f;
@@ -97,7 +87,7 @@ public class Ludumdare30Main extends ApplicationAdapter
     public void resize(int width, int height)
     {
         super.resize(width, height);
-        cameraControl.resize(width, height);
+        gameData.cameraControl.resize(width, height);
     }
 
     @Override

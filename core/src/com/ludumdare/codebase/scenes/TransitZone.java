@@ -2,8 +2,9 @@ package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.ludumdare.codebase.ActivityZone;
 
-public class TransitZone extends Rectangle
+public class TransitZone extends ActivityZone
 {
     Scene from;
     Scene to;
