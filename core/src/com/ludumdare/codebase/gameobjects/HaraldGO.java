@@ -1,16 +1,10 @@
 package com.ludumdare.codebase.gameobjects;
 
-public class HaraldGO extends SpriteObject
+public class HaraldGO extends AnimatedSpriteObject
 {
     public HaraldGO()
     {
-        super("protagonist_mockup.png");
-    }
-
-    @Override
-    public void update()
-    {
-
+        super("walkcycletest.png", 5, 1);
     }
 
 }

@@ -15,6 +15,8 @@ public class RenderInfo implements Comparable<RenderInfo>
     float y;
     float layer;
 
+    float u0, v0, u1, v1;
+
     @Override
     public int compareTo(RenderInfo o)
     {

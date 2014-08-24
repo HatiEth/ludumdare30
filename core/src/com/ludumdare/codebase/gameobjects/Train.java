@@ -1,5 +1,7 @@
 package com.ludumdare.codebase.gameobjects;
 
+import com.badlogic.gdx.Gdx;
+
 public class Train extends SpriteObject
 {
 
@@ -15,7 +17,8 @@ public class Train extends SpriteObject
     @Override
     public void update()
     {
-        position.x = position.x + (endX - position.x) * 0.016f;
+        position.x = position.x + (endX - position.x)
+                * Gdx.graphics.getDeltaTime();
     }
 
 }

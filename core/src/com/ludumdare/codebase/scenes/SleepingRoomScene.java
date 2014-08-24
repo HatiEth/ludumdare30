@@ -2,6 +2,7 @@ package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.gameobjects.HaraldGO;
 
 public class SleepingRoomScene extends Scene
 {
@@ -13,12 +14,10 @@ public class SleepingRoomScene extends Scene
     @Override
     public void onEnter(Scene from)
     {
+        pathEngine.setGameObject(gameData.haraldGameObject);
+        gameData.haraldGameObject.setPosition(0, 0);
         if (from == null) // starting
         {
-            Gdx.app.log("INFO", "Starting game");
-            gameData.haraldGameObject.setPosition(0, 0);
-            pathEngine.setTargetPosition(gameData.haraldGameObject
-                    .getPosition());
         }
     }
 }

@@ -13,7 +13,11 @@ public class FloorScene extends Scene
     @Override
     public void onEnter(Scene from)
     {
-
+        pathEngine.setGameObject(gameData.haraldGameObject);
+        if (from instanceof KitchenScene)
+        {
+            gameData.haraldGameObject.setPosition(0, 0);
+        }
     }
 
 }

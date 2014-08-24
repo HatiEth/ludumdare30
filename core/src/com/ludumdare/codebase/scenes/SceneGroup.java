@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
@@ -42,7 +43,17 @@ public abstract class SceneGroup extends Scene
 
     public void enterScene(Scene scene, Scene from)
     {
+        if (from != null)
+        {
+            System.out.println("Entering " + scene.getClass().getSimpleName()
+                    + " from " + from.getClass().getSimpleName());
+        }
+        else
+        {
+            System.out.println("Entering " + scene.getClass().getSimpleName());
+        }
         activeScene = scene;
+        activeScene.pathEngine.reset();
         activeScene.onEnter(from);
     }
 
@@ -77,7 +88,9 @@ public abstract class SceneGroup extends Scene
     public void debugDrawTransitZones(Renderer renderer)
     {
         ShapeRenderer sr = renderer.getShapeRenderer();
-        TransitZone t = getTransitAt(Gdx.input.getX(), Gdx.input.getY());
+        Vector2 mp = gameData.cameraControl.screenToWorld(Gdx.input.getX(),
+                Gdx.input.getY());
+        TransitZone t = getTransitAt(mp.x, mp.y);
         sr.begin(ShapeType.Filled);
         for (TransitZone z : transitZones)
         {

@@ -14,12 +14,13 @@ public abstract class SpriteObject extends GameObject
     {
         spriteHandle = new Texture(Gdx.files.internal(spriteFilePath));
         spriteHandle.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
     }
 
     @Override
     public void render(Renderer renderer)
     {
-        renderer.drawSprite(spriteHandle, position.x, position.y, layer);
+        renderer.drawStaticSprite(spriteHandle, position.x, position.y, layer);
     }
 
     public void setLayer(float layer)

@@ -47,11 +47,9 @@ public class HomeSceneGroup extends SceneGroup
 
         sr = new ShapeRenderer();
 
-        sleepRoom.pathEngine.setGameObject(gameData.haraldGameObject);
         sleepRoom.addObject(gameData.haraldGameObject);
-
-        kitchen.pathEngine.setGameObject(gameData.haraldGameObject);
         kitchen.addObject(gameData.haraldGameObject);
+        floor.addObject(gameData.haraldGameObject);
 
     }
 

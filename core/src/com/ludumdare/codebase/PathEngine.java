@@ -1,5 +1,6 @@
 package com.ludumdare.codebase;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.gameobjects.GameObject;
@@ -42,6 +43,12 @@ public class PathEngine
 
             p = p.lerp(targetPosition, 0.016f);
         }
+    }
+
+    public void reset()
+    {
+        targetPosition = null;
+        gameObject = null;
     }
 
 }

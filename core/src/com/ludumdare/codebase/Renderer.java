@@ -3,13 +3,22 @@ package com.ludumdare.codebase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Pool;
 import com.ludumdare.util.Camera2DControl;
 
+/**
+ * Highly inefficient renderer (using bunch of uniforms instead of vertex
+ * buffers and instancing)
+ * 
+ * @author Hati Eth
+ *
+ */
 public class Renderer
 {
     SpriteMesh spriteMesh;
@@ -61,16 +70,41 @@ public class Renderer
         renderList.clear();
     }
 
-    public void drawSprite(Texture texture, float x, float y, float layer)
+    public void drawStaticSprite(Texture texture, float x, float y, float layer)
     {
         RenderInfo info = renderPool.obtain();
-        info.x = x;
-        info.y = y;
+        info.x = MathUtils.floor(x) + 0.5f;
+        info.y = MathUtils.floor(y) + 0.5f;
         info.layer = layer;
         info.texture = texture;
         info.width = texture.getWidth();
         info.height = texture.getHeight();
         info.meshtype = spriteMesh;
+        info.u0 = 0;
+        info.v0 = 0;
+        info.u1 = 1;
+        info.v1 = 1;
+
+        renderList.add(info);
+
+        isDirty = true;
+    }
+
+    public void drawAnimatedSprite(TextureRegion texture, float x, float y,
+            float layer)
+    {
+        RenderInfo info = renderPool.obtain();
+        info.x = MathUtils.floor(x) + 0.5f;
+        info.y = MathUtils.floor(y) + 0.5f;
+        info.layer = layer;
+        info.texture = texture.getTexture();
+        info.width = texture.getRegionWidth();
+        info.height = texture.getRegionHeight();
+        info.meshtype = spriteMesh;
+        info.u0 = texture.getU();
+        info.u1 = texture.getU2() - texture.getU();
+        info.v0 = texture.getV();
+        info.v1 = texture.getV2() - texture.getV();
 
         renderList.add(info);
 
@@ -114,6 +148,7 @@ public class Renderer
             }
 
             spriteShader.setUniformf("i_position", i.x, i.y, i.layer);
+            spriteShader.setUniformf("i_texCoords", i.u0, i.v0, i.u1, i.v1);
 
             i.meshtype.render(spriteShader, GL20.GL_TRIANGLE_STRIP, 0, 4);
         }
