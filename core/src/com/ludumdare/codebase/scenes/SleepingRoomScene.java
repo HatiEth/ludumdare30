@@ -1,8 +1,12 @@
 package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.InteractionNode;
+import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.gameobjects.BackgroundGO;
+import com.ludumdare.codebase.gameobjects.GameObject;
 import com.ludumdare.codebase.gameobjects.HaraldGO;
 
 public class SleepingRoomScene extends Scene
@@ -20,6 +24,10 @@ public class SleepingRoomScene extends Scene
 
         foreground.setLayer(10.0f);
         addObject(foreground);
+
+        pathEngine.addLeaf(new InteractionNode(ObjectState.IDLE,
+                GameObject.Direction.Up, new Vector2(-405, -350), 0.0f, -415,
+                120, 114, 134));
     }
 
     @Override

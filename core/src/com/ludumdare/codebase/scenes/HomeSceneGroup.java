@@ -14,13 +14,10 @@ import com.ludumdare.codebase.gameobjects.GameObject;
 public class HomeSceneGroup extends SceneGroup
 {
     protected SleepingRoomScene sleepRoom;
-    protected FloorScene floor;
     protected KitchenScene kitchen;
-
-    // final TransitZone sleepRoomKitchenTransit;
-    // final TransitZone kitchenSleepRoomTransit;
-    // final TransitZone kitchenFloorTransit;
-    // final TransitZone floorSleepRoomTransit;
+    protected FloorScene floor;
+    protected FrontOfHouseScene inFrontOfHouse;
+    Haltestelle0 haltestelle0;
 
     ShapeRenderer sr;
 
@@ -30,18 +27,20 @@ public class HomeSceneGroup extends SceneGroup
         sleepRoom = new SleepingRoomScene(gameData);
         kitchen = new KitchenScene(gameData);
         floor = new FloorScene(gameData);
+        inFrontOfHouse = new FrontOfHouseScene(gameData);
+        haltestelle0 = new Haltestelle0(gameData);
 
         // sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen,
         // new TransitNode(sleepRoom.pathEngine, 960 - 32, 0),
         // new Rectangle(960 - 64, -540, 64, 1080));
         sleepRoom.pathEngine.addLeaf(new TransitNode(this, sleepRoom, kitchen,
                 new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
-        sleepRoom.pathEngine.addLeaf(new InteractionNode(ObjectState.IDLE,
-                GameObject.Direction.Up, new Vector2(-405, -350), 0.0f, -405,
-                110, 114, 134));
 
         kitchen.pathEngine.addLeaf(new TransitNode(this, kitchen, floor,
                 new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
+
+        floor.pathEngine.addLeaf(new TransitNode(this, floor, inFrontOfHouse,
+                new Vector2(960 - 32, -340), 0.0f, 960 - 32, -330, 64, 80));
         // sleepRoomKitchenTransit.activate();
 
         // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
@@ -63,7 +62,7 @@ public class HomeSceneGroup extends SceneGroup
         sleepRoom.addObject(gameData.haraldGameObject);
         kitchen.addObject(gameData.haraldGameObject);
         floor.addObject(gameData.haraldGameObject);
-
+        inFrontOfHouse.addObject(gameData.haraldGameObject);
     }
 
     @Override

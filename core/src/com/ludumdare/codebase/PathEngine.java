@@ -108,8 +108,18 @@ public class PathEngine
             Vector2 p = gameObject.getPosition();
 
             // p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());
-            p.add(direction.x * 50.0f * 1.75f * 0.016f,
-                    direction.y * 25.0f * 1.75f * 0.016f);
+            if (!GameData.isDevMode)
+            {
+                p.add(direction.x * 50.0f * 4.75f * 0.016f,
+                        direction.y * 25.0f * 4.75f * 0.016f);
+            }
+            else
+            {
+                p.add(direction.x * 50.0f * 2 * 4.75f * 0.016f, direction.y
+                        * 25.0f * 2 * 4.75f * 0.016f);
+            }
+            // p.add(direction.x * 50.0f * 1.75f * 0.016f,
+            // direction.y * 25.0f * 1.75f * 0.016f);
             // p.add(direction.x * 50.0f * 1.25f * Gdx.graphics.getDeltaTime(),
             // direction.y * 25.0f * 1.25f * Gdx.graphics.getDeltaTime());
             // gameObject.setLayer(gameObject.getLayer()

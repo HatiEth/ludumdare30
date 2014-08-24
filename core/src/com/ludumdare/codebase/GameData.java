@@ -8,6 +8,8 @@ import com.ludumdare.util.Camera2DControl;
  */
 public class GameData
 {
+    public static boolean isDevMode = true;
+
     public final float UPDATE_FREQUENCY = 0.016f;
 
     public final Camera2DControl cameraControl;
