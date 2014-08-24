@@ -10,9 +10,9 @@ public class TransitZone extends ActivityZone
     Scene from;
     Scene to;
 
-    public TransitZone(Scene from, Scene to, PathNode pathNode, Rectangle zone)
+    public TransitZone(Scene from, Scene to, Rectangle zone)
     {
-        super(pathNode, zone);
+        super(zone);
 
         this.from = from;
         this.to = to;

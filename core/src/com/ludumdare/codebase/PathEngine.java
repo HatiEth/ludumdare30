@@ -17,7 +17,7 @@ import com.ludumdare.codebase.gameobjects.GameObject;
  */
 public class PathEngine
 {
-    Array<PathNode> pathNodes;
+    Array<PathNode> pathLeaves;
     GameObject gameObject;
     PathNode start;
     PathNode target;
@@ -25,7 +25,7 @@ public class PathEngine
 
     public PathEngine()
     {
-        pathNodes = new Array<PathNode>();
+        pathLeaves = new Array<PathNode>();
 
         gameObject = null;
         target = null;
@@ -50,10 +50,11 @@ public class PathEngine
                 this.start = new PathNode(gameObject.getPosition(),
                         gameObject.getLayer());
             }
-            if (target != null)
+
+            PathNode targetedNode = getNodeAt(targetPosition);
+            if (targetedNode != null)
             {
-                this.target.layer = gameObject.getLayer();
-                this.target.worldPosition = targetPosition;
+                target = targetedNode;
             }
             else
             {
@@ -80,13 +81,13 @@ public class PathEngine
             float dist2 = Vector2.dst2(gameObject.getPosition().x,
                     gameObject.getPosition().y, target.worldPosition.x,
                     target.worldPosition.y);
-            if (dist2 < 25.0f)
+            if (dist2 < 100.0f)
             {
-
-                if ((Math.abs(gameObject.getLayer() - target.layer) < MathUtils.FLOAT_ROUNDING_ERROR))
+                if ((Math.abs(gameObject.getLayer() - target.layer) < 0.3f))
                 {
                     target.execute(gameObject);
                     target = null;
+                    start = null;
 
                     return;
                 }
@@ -113,11 +114,23 @@ public class PathEngine
     {
         ShapeRenderer sr = renderer.getShapeRenderer();
 
-        for (PathNode p : pathNodes)
+        sr.begin(ShapeType.Filled);
+        for (PathNode p : pathLeaves)
         {
-            sr.begin(ShapeType.Line);
+            sr.setColor(new Color(0, 0, 255, 128));
+            if (p.clickableArea != null)
+            {
+                sr.rect(p.clickableArea.x, p.clickableArea.y,
+                        p.clickableArea.width, p.clickableArea.height);
+            }
+        }
+        sr.end();
+
+        sr.begin(ShapeType.Line);
+        for (PathNode p : pathLeaves)
+        {
             sr.setColor(Color.YELLOW);
-            sr.circle(p.worldPosition.x, p.worldPosition.y, 50);
+            sr.circle(p.worldPosition.x, p.worldPosition.y, 25.0f);
             PathNode a = p;
             PathNode b = a.prev;
             while (b != null)
@@ -126,23 +139,49 @@ public class PathEngine
                 a = b;
                 b = a.prev;
             }
-            sr.end();
         }
+        sr.end();
 
-        if (target != null)
+        if (start != null && target != null)
         {
             sr.begin(ShapeType.Filled);
             sr.setColor(Color.NAVY);
-            sr.circle(target.worldPosition.x, target.worldPosition.y, 50);
+            sr.circle(target.worldPosition.x, target.worldPosition.y, 25.0f);
+            sr.circle(start.worldPosition.x, start.worldPosition.y, 25.0f);
+            sr.end();
+
+            sr.begin(ShapeType.Line);
+            sr.setColor(Color.WHITE);
+            sr.line(gameObject.getPosition(), target.worldPosition);
             sr.end();
         }
     }
 
-    public PathNode createNode(float x, float y, float layer)
+    public void addLeaf(PathNode node)
     {
-        PathNode n = new PathNode(new Vector2(x, y), layer);
-        pathNodes.add(n);
-        return n;
+        this.pathLeaves.add(node);
     }
 
+    private PathNode getNodeAt(Vector2 point)
+    {
+        for (PathNode p : pathLeaves)
+        {
+            PathNode a = p;
+            if (a.isSelected(point))
+            {
+                return p;
+            }
+            while (a.prev != null) // traverse children if has any to get
+                                   // possible points
+            {
+                a = a.prev;
+                if (a.isSelected(point))
+                {
+
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
 }

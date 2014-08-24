@@ -18,5 +18,6 @@ public class GameData
         cameraControl.setPosition(0, 0);
 
         haraldGameObject = new HaraldGO();
+        haraldGameObject.setLayer(0.1f);
     }
 }

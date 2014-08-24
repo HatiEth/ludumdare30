@@ -32,14 +32,14 @@ public abstract class SceneGroup extends Scene
     {
         activeScene.update();
 
-        TransitZone zoneIn = getTransitAt(
-                gameData.haraldGameObject.getPosition().x,
-                gameData.haraldGameObject.getPosition().y);
-
-        if (zoneIn != null && zoneIn.isActivate())
-        {
-            enterScene(zoneIn.to, zoneIn.from);
-        }
+        // TransitZone zoneIn = getTransitAt(
+        // gameData.haraldGameObject.getPosition().x,
+        // gameData.haraldGameObject.getPosition().y);
+        //
+        // if (zoneIn != null && zoneIn.isActivate())
+        // {
+        // enterScene(zoneIn.to, zoneIn.from);
+        // }
     }
 
     public void enterScene(Scene scene, Scene from)
@@ -62,65 +62,6 @@ public abstract class SceneGroup extends Scene
     public void render(Renderer renderer)
     {
         activeScene.render(renderer);
-    }
-
-    public TransitZone addTransit(Scene from, Scene to, PathNode pathNode,
-            Rectangle transitArea)
-    {
-        TransitZone zone = new TransitZone(from, to, pathNode, transitArea);
-        this.transitZones.add(zone);
-        this.activityZones.add(zone);
-        return zone;
-    }
-
-    public TransitZone getTransitAt(float px, float py)
-    {
-        for (TransitZone t : transitZones)
-        {
-            if (activeScene == t.from)
-            {
-                if (t.contains(px, py))
-                {
-                    return t;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void debugDrawTransitZones(Renderer renderer)
-    {
-        ShapeRenderer sr = renderer.getShapeRenderer();
-        Vector2 mp = gameData.cameraControl.screenToWorld(Gdx.input.getX(),
-                Gdx.input.getY());
-        TransitZone t = getTransitAt(mp.x, mp.y);
-        sr.begin(ShapeType.Filled);
-        for (TransitZone z : transitZones)
-        {
-            if (activeScene == z.from)
-            {
-                if (z.isActivate())
-                {
-                    if (z == t)
-                    {
-                        sr.rect(z.x, z.y, z.width, z.height, Color.GREEN,
-                                Color.GREEN, Color.GREEN, Color.GREEN);
-                    }
-                    else
-                    {
-                        sr.rect(z.x, z.y, z.width, z.height, Color.BLUE,
-                                Color.BLUE, Color.BLUE, Color.BLUE);
-                    }
-                }
-                else
-                {
-                    sr.rect(z.x, z.y, z.width, z.height, Color.RED, Color.RED,
-                            Color.RED, Color.RED);
-                }
-            }
-        }
-        sr.end();
-
     }
 
 }

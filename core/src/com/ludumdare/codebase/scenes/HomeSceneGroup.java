@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
 
@@ -13,7 +14,7 @@ public class HomeSceneGroup extends SceneGroup
     protected FloorScene floor;
     protected KitchenScene kitchen;
 
-    final TransitZone sleepRoomKitchenTransit;
+    // final TransitZone sleepRoomKitchenTransit;
     // final TransitZone kitchenSleepRoomTransit;
     // final TransitZone kitchenFloorTransit;
     // final TransitZone floorSleepRoomTransit;
@@ -27,10 +28,12 @@ public class HomeSceneGroup extends SceneGroup
         kitchen = new KitchenScene(gameData);
         floor = new FloorScene(gameData);
 
-        sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen,
-                sleepRoom.pathEngine.createNode(960 - 32, 0, 0), new Rectangle(
-                        960 - 64, -540, 64, 1080));
-        sleepRoomKitchenTransit.activate();
+        // sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen,
+        // new TransitNode(sleepRoom.pathEngine, 960 - 32, 0),
+        // new Rectangle(960 - 64, -540, 64, 1080));
+        sleepRoom.pathEngine.addLeaf(new TransitNode(this, sleepRoom, kitchen,
+                new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
+        // sleepRoomKitchenTransit.activate();
 
         // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
         // Rectangle(
@@ -60,8 +63,6 @@ public class HomeSceneGroup extends SceneGroup
         super.render(renderer);
         renderer.renderAll();
 
-        debugDrawTransitZones(renderer);
-
         activeScene.pathEngine.debugDraw(renderer);
     }
 
@@ -77,14 +78,12 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchUp(int screenX, int screenY, int pointer,
                     int button)
             {
-
                 return false;
             }
 
             @Override
             public boolean touchDragged(int screenX, int screenY, int pointer)
             {
-                // TODO Auto-generated method stub
                 return false;
             }
 
@@ -92,6 +91,8 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchDown(int screenX, int screenY, int pointer,
                     int button)
             {
+                System.out.println(gameData.cameraControl.screenToWorld(
+                        screenX, screenY));
                 activeScene.pathEngine.setTargetPosition(gameData.cameraControl
                         .screenToWorld(screenX, screenY));
 
@@ -101,21 +102,18 @@ public class HomeSceneGroup extends SceneGroup
             @Override
             public boolean scrolled(int amount)
             {
-                // TODO Auto-generated method stub
                 return false;
             }
 
             @Override
             public boolean mouseMoved(int screenX, int screenY)
             {
-
                 return false;
             }
 
             @Override
             public boolean keyUp(int keycode)
             {
-                // TODO Auto-generated method stub
                 return false;
             }
 

@@ -1,5 +1,6 @@
 package com.ludumdare.codebase;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
@@ -11,13 +12,34 @@ public class PathNode
     PathNode next = null;
     PathNode prev = null;
 
+    ActivityZone clickableArea;
+
     Vector2 worldPosition;
     float layer;
+
+    public PathNode(Vector2 position, float layer, float x, float y,
+            float halfWidth, float halfHeight)
+    {
+        this.worldPosition = position;
+        this.layer = layer;
+        clickableArea = new ActivityZone(x - halfWidth, y - halfHeight,
+                2 * halfWidth, 2 * halfHeight);
+    }
 
     public PathNode(Vector2 position, float layer)
     {
         this.worldPosition = position;
         this.layer = layer;
+    }
+
+    public boolean isSelected(float x, float y)
+    {
+        return clickableArea != null && clickableArea.contains(x, y);
+    }
+
+    public boolean isSelected(Vector2 p)
+    {
+        return clickableArea != null && clickableArea.contains(p);
     }
 
     public void setNext(PathNode next)
@@ -42,6 +64,6 @@ public class PathNode
 
     public void execute(GameObject o)
     {
-
+        System.out.println("Firing pathnode " + this);
     }
 }

@@ -7,27 +7,22 @@ public class ActivityZone extends Rectangle
 {
 
     private boolean isActive;
-    private final PathNode pathNode;
     private Rectangle rect;
 
-    public ActivityZone(PathNode pathNode)
+    public ActivityZone()
     {
         super();
         isActive = false;
-        this.pathNode = pathNode;
     }
 
-    public ActivityZone(PathNode pathNode, float x, float y, float width,
-            float height)
+    public ActivityZone(float x, float y, float width, float height)
     {
         super(x, y, width, height);
-        this.pathNode = pathNode;
     }
 
-    public ActivityZone(PathNode pathNode, Rectangle rect)
+    public ActivityZone(Rectangle rect)
     {
         super(rect);
-        this.pathNode = pathNode;
     }
 
     public void activate()
