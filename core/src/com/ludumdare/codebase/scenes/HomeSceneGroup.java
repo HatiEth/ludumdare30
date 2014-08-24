@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.InteractionNode;
+import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
+import com.ludumdare.codebase.gameobjects.GameObject;
 
 public class HomeSceneGroup extends SceneGroup
 {
@@ -32,6 +35,12 @@ public class HomeSceneGroup extends SceneGroup
         // new TransitNode(sleepRoom.pathEngine, 960 - 32, 0),
         // new Rectangle(960 - 64, -540, 64, 1080));
         sleepRoom.pathEngine.addLeaf(new TransitNode(this, sleepRoom, kitchen,
+                new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
+        sleepRoom.pathEngine.addLeaf(new InteractionNode(ObjectState.IDLE,
+                GameObject.Direction.Up, new Vector2(-405, -350), 0.0f, -405,
+                110, 114, 134));
+
+        kitchen.pathEngine.addLeaf(new TransitNode(this, kitchen, floor,
                 new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
         // sleepRoomKitchenTransit.activate();
 

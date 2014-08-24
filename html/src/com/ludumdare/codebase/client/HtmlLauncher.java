@@ -11,7 +11,14 @@ public class HtmlLauncher extends GwtApplication
     @Override
     public GwtApplicationConfiguration getConfig()
     {
-        return new GwtApplicationConfiguration(960, 540);
+        GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(1440,
+                810);
+
+        cfg.antialiasing = true;
+        cfg.preserveDrawingBuffer = true;
+        cfg.useDebugGL = false;
+
+        return cfg;
     }
 
     @Override

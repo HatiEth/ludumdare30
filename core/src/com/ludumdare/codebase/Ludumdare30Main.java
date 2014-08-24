@@ -18,6 +18,9 @@ import com.ludumdare.codebase.scenes.SceneGroup;
 public class Ludumdare30Main extends ApplicationAdapter
 {
 
+    float timeAccumulator = 0.0f;
+    float UPDATE_FREQUENCY = 0.016f;
+
     SpriteBatch batch;
     Texture img;
 
@@ -68,7 +71,13 @@ public class Ludumdare30Main extends ApplicationAdapter
     @Override
     public void render()
     {
-        homeGroup.update();
+        timeAccumulator = timeAccumulator + Gdx.graphics.getDeltaTime();
+
+        while (timeAccumulator >= gameData.UPDATE_FREQUENCY)
+        {
+            timeAccumulator = timeAccumulator - gameData.UPDATE_FREQUENCY;
+            homeGroup.update();
+        }
         homeGroup.render(renderer);
     }
 

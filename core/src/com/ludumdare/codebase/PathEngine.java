@@ -2,10 +2,12 @@ package com.ludumdare.codebase;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
@@ -21,7 +23,7 @@ public class PathEngine
     GameObject gameObject;
     PathNode start;
     PathNode target;
-    Vector2 direction;
+    Vector3 direction;
 
     public PathEngine()
     {
@@ -29,6 +31,7 @@ public class PathEngine
 
         gameObject = null;
         target = null;
+        direction = new Vector3();
     }
 
     public void setGameObject(GameObject o)
@@ -70,6 +73,13 @@ public class PathEngine
             {
                 gameObject.setDirection(GameObject.Direction.Right);
             }
+            gameObject.enterState(ObjectState.MOVE);
+
+            direction.set(target.worldPosition, target.layer);
+            direction.sub(start.worldPosition.x, start.worldPosition.y,
+                    start.layer);
+
+            direction.nor();
         }
         // this.targetPosition = targetPosition;
     }
@@ -89,17 +99,28 @@ public class PathEngine
                     target = null;
                     start = null;
 
+                    gameObject.enterState(ObjectState.IDLE);
+
                     return;
                 }
             }
 
             Vector2 p = gameObject.getPosition();
 
-            p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());
+            // p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());
+            p.add(direction.x * 50.0f * 1.75f * 0.016f,
+                    direction.y * 25.0f * 1.75f * 0.016f);
+            // p.add(direction.x * 50.0f * 1.25f * Gdx.graphics.getDeltaTime(),
+            // direction.y * 25.0f * 1.25f * Gdx.graphics.getDeltaTime());
+            // gameObject.setLayer(gameObject.getLayer()
+            // + (target.layer - gameObject.getLayer())
+            // * Gdx.graphics.getDeltaTime());
 
-            gameObject.setLayer(gameObject.getLayer()
-                    + (target.layer - gameObject.getLayer())
-                    * Gdx.graphics.getDeltaTime());
+            direction.set(target.worldPosition, target.layer);
+            direction.sub(gameObject.getPosition().x,
+                    gameObject.getPosition().y, gameObject.getLayer());
+
+            direction.nor();
         }
 
     }
@@ -117,7 +138,7 @@ public class PathEngine
         sr.begin(ShapeType.Filled);
         for (PathNode p : pathLeaves)
         {
-            sr.setColor(new Color(0, 0, 255, 128));
+            sr.setColor(new Color(0, 0, 1, 0.5f));
             if (p.clickableArea != null)
             {
                 sr.rect(p.clickableArea.x, p.clickableArea.y,
@@ -132,6 +153,13 @@ public class PathEngine
             sr.setColor(Color.YELLOW);
             sr.circle(p.worldPosition.x, p.worldPosition.y, 25.0f);
             PathNode a = p;
+
+            sr.setColor(Color.CYAN);
+            sr.line(p.worldPosition.x, p.worldPosition.y, p.clickableArea.x,
+                    p.clickableArea.y);
+            sr.rect(p.clickableArea.x, p.clickableArea.y,
+                    p.clickableArea.width, p.clickableArea.height);
+
             PathNode b = a.prev;
             while (b != null)
             {

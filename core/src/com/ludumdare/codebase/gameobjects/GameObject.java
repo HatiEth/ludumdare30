@@ -1,12 +1,16 @@
 package com.ludumdare.codebase.gameobjects;
 
 import com.badlogic.gdx.math.Vector2;
+import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
 
 public abstract class GameObject
 {
     Vector2 position;
     protected float layer;
+
+    float stateTime;
+    public ObjectState objectState;
 
     public enum Direction
     {
@@ -19,6 +23,8 @@ public abstract class GameObject
     {
         position = new Vector2();
         direction = Direction.Right;
+
+        enterState(ObjectState.IDLE);
     }
 
     public abstract void update();
@@ -59,6 +65,12 @@ public abstract class GameObject
     public Direction getDirection()
     {
         return direction;
+    }
+
+    public void enterState(ObjectState state)
+    {
+        objectState = state;
+        stateTime = 0.0f;
     }
 
 }

@@ -17,8 +17,8 @@ public class Train extends SpriteObject
     @Override
     public void update()
     {
-        position.x = position.x + (endX - position.x)
-                * Gdx.graphics.getDeltaTime();
+        position.x = position.x + (endX - position.x) * 0.016f;
+        // position.x = position.x + (endX - position.x)
+        // * Gdx.graphics.getDeltaTime();
     }
-
 }

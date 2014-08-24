@@ -2,5 +2,5 @@ package com.ludumdare.codebase;
 
 public enum ObjectState
 {
-    IDLE, WALK, SIT
+    IDLE, MOVE, TAKE_SEAT, SITTING, TALK, TAKE
 }

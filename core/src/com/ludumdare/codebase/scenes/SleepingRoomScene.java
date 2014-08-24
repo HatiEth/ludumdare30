@@ -8,13 +8,25 @@ import com.ludumdare.codebase.gameobjects.HaraldGO;
 public class SleepingRoomScene extends Scene
 {
     BackgroundGO background;
+    BackgroundGO foreground;
 
     public SleepingRoomScene(GameData gameData)
     {
         super(gameData);
 
         background = new BackgroundGO("Schlafzimmer.png");
+        foreground = new BackgroundGO("Schlafzimmer_Light.png");
         addObject(background);
+
+        foreground.setLayer(10.0f);
+        addObject(foreground);
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+
     }
 
     @Override
