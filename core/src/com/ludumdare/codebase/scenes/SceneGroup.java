@@ -1,5 +1,9 @@
 package com.ludumdare.codebase.scenes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -34,9 +38,11 @@ public class SceneGroup extends Scene
         activeScene.render(renderer);
     }
 
-    public void addTransit(Scene from, Scene to, Rectangle transitArea)
+    public TransitZone addTransit(Scene from, Scene to, Rectangle transitArea)
     {
-        this.transitZones.add(new TransitZone(from, to, transitArea));
+        TransitZone zone = new TransitZone(from, to, transitArea);
+        this.transitZones.add(zone);
+        return zone;
     }
 
     public TransitZone getTransitAt(float px, float py)
@@ -52,6 +58,39 @@ public class SceneGroup extends Scene
             }
         }
         return null;
+    }
+
+    public void debugDrawTransitZones(Renderer renderer)
+    {
+        ShapeRenderer sr = renderer.getShapeRenderer();
+        TransitZone t = getTransitAt(Gdx.input.getX(), Gdx.input.getY());
+        sr.begin(ShapeType.Filled);
+        for (TransitZone z : transitZones)
+        {
+            if (activeScene == z.from)
+            {
+                if (z.isActivate())
+                {
+                    if (z == t)
+                    {
+                        sr.rect(z.x, z.y, z.width, z.height, Color.GREEN,
+                                Color.GREEN, Color.GREEN, Color.GREEN);
+                    }
+                    else
+                    {
+                        sr.rect(z.x, z.y, z.width, z.height, Color.BLUE,
+                                Color.BLUE, Color.BLUE, Color.BLUE);
+                    }
+                }
+                else
+                {
+                    sr.rect(z.x, z.y, z.width, z.height, Color.RED, Color.RED,
+                            Color.RED, Color.RED);
+                }
+            }
+        }
+        sr.end();
+
     }
 
 }

@@ -17,6 +17,11 @@ public class HomeSceneGroup extends SceneGroup
     protected FloorScene floor;
     protected KitchenScene kitchen;
 
+    final TransitZone sleepRoomKitchenTransit;
+    final TransitZone kitchenSleepRoomTransit;
+    final TransitZone kitchenFloorTransit;
+    final TransitZone floorSleepRoomTransit;
+
     ShapeRenderer sr;
 
     public HomeSceneGroup(GameData gameData)
@@ -28,12 +33,21 @@ public class HomeSceneGroup extends SceneGroup
 
         setActiveScene(sleepRoom);
 
-        addTransit(sleepRoom, kitchen, new Rectangle(960 - 64, -540, 64, 1080));
+        sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen, new Rectangle(
+                960 - 64, -540, 64, 1080));
+        sleepRoomKitchenTransit.activate();
 
-        addTransit(kitchen, sleepRoom, new Rectangle(-960, -540, 64, 1080));
-        addTransit(kitchen, floor, new Rectangle(960 - 64, -540, 64, 1080));
+        kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new Rectangle(
+                -960, -540, 64, 1080));
+        kitchenSleepRoomTransit.activate();
 
-        addTransit(floor, sleepRoom, new Rectangle(960 - 64, -540, 64, 1080));
+        kitchenFloorTransit = addTransit(kitchen, floor, new Rectangle(
+                960 - 64, -540, 64, 1080));
+        kitchenFloorTransit.activate();
+
+        floorSleepRoomTransit = addTransit(floor, sleepRoom, new Rectangle(
+                960 - 64, -540, 64, 1080));
+        floorSleepRoomTransit.activate();
 
         sr = new ShapeRenderer();
 
@@ -49,24 +63,7 @@ public class HomeSceneGroup extends SceneGroup
         super.render(renderer);
         renderer.renderAll();
 
-        ShapeRenderer sr = renderer.getShapeRenderer();
-        sr.begin(ShapeType.Filled);
-        for (TransitZone z : transitZones)
-        {
-            if (activeScene == z.from)
-            {
-                sr.rect(z.x, z.y, z.width, z.height, Color.BLUE, Color.BLUE,
-                        Color.BLUE, Color.BLUE);
-            }
-        }
-
-        TransitZone t = getTransitAt(Gdx.input.getX(), Gdx.input.getY());
-        if (t != null)
-        {
-            sr.rect(t.x, t.y, t.width, t.height, Color.GREEN, Color.GREEN,
-                    Color.GREEN, Color.GREEN);
-        }
-        sr.end();
+        debugDrawTransitZones(renderer);
     }
 
     @Override
