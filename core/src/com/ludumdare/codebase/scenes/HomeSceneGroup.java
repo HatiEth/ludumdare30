@@ -2,14 +2,10 @@ package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
-import com.ludumdare.codebase.gameobjects.HaraldGO;
 
 public class HomeSceneGroup extends SceneGroup
 {
@@ -51,9 +47,11 @@ public class HomeSceneGroup extends SceneGroup
 
         sr = new ShapeRenderer();
 
-        gameData.haraldGameObject.setPosition(0, 0);
         sleepRoom.pathEngine.setGameObject(gameData.haraldGameObject);
         sleepRoom.addObject(gameData.haraldGameObject);
+
+        kitchen.pathEngine.setGameObject(gameData.haraldGameObject);
+        kitchen.addObject(gameData.haraldGameObject);
 
     }
 
@@ -133,5 +131,11 @@ public class HomeSceneGroup extends SceneGroup
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onEnter(Scene from)
+    {
+
     }
 }

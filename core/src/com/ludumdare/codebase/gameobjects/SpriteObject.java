@@ -1,7 +1,6 @@
 package com.ludumdare.codebase.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.ludumdare.codebase.Renderer;

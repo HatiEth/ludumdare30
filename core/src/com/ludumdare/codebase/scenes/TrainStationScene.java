@@ -17,4 +17,10 @@ public class TrainStationScene extends Scene
         obj.setLayer(-300);
 
     }
+
+    @Override
+    public void onEnter(Scene from)
+    {
+
+    }
 }

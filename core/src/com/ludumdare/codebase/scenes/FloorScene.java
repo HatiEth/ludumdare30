@@ -10,4 +10,10 @@ public class FloorScene extends Scene
         super(gameData);
     }
 
+    @Override
+    public void onEnter(Scene from)
+    {
+
+    }
+
 }

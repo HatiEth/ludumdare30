@@ -10,4 +10,13 @@ public class KitchenScene extends Scene
         super(gameData);
     }
 
+    @Override
+    public void onEnter(Scene from)
+    {
+        if (from instanceof SleepingRoomScene)
+        {
+            System.out.println("Entering from SleepingRoomScene");
+            gameData.haraldGameObject.getPosition().set(0, 0);
+        }
+    }
 }

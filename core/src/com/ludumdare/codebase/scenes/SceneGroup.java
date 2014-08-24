@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
 
-public class SceneGroup extends Scene
+public abstract class SceneGroup extends Scene
 {
     protected Scene activeScene;
     Array<TransitZone> transitZones;
@@ -23,13 +22,28 @@ public class SceneGroup extends Scene
 
     public void setActiveScene(Scene activeScene)
     {
-        this.activeScene = activeScene;
+        enterScene(activeScene, null);
     }
 
     @Override
     public void update()
     {
         activeScene.update();
+
+        TransitZone zoneIn = getTransitAt(
+                gameData.haraldGameObject.getPosition().x,
+                gameData.haraldGameObject.getPosition().y);
+
+        if (zoneIn != null && zoneIn.isActivate())
+        {
+            enterScene(zoneIn.to, zoneIn.from);
+        }
+    }
+
+    public void enterScene(Scene scene, Scene from)
+    {
+        activeScene = scene;
+        activeScene.onEnter(from);
     }
 
     @Override

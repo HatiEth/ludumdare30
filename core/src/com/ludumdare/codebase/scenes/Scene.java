@@ -1,6 +1,5 @@
 package com.ludumdare.codebase.scenes;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.PathEngine;
@@ -58,4 +57,6 @@ public abstract class Scene
         objects.add(o);
         o.setPosition(x, y);
     }
+
+    public abstract void onEnter(Scene from);
 }
