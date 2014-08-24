@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Pool;
+import com.ludumdare.codebase.gameobjects.GameObject;
 import com.ludumdare.util.Camera2DControl;
 
 /**
@@ -70,14 +71,16 @@ public class Renderer
         renderList.clear();
     }
 
-    public void drawStaticSprite(Texture texture, float x, float y, float layer)
+    public void drawStaticSprite(Texture texture, float x, float y,
+            float layer, GameObject.Direction direction)
     {
         RenderInfo info = renderPool.obtain();
         info.x = MathUtils.floor(x) + 0.5f;
         info.y = MathUtils.floor(y) + 0.5f;
         info.layer = layer;
         info.texture = texture;
-        info.width = texture.getWidth();
+        info.width = direction == GameObject.Direction.Left ? -texture
+                .getWidth() : texture.getWidth();
         info.height = texture.getHeight();
         info.meshtype = spriteMesh;
         info.u0 = 0;
@@ -91,14 +94,15 @@ public class Renderer
     }
 
     public void drawAnimatedSprite(TextureRegion texture, float x, float y,
-            float layer)
+            float layer, GameObject.Direction direction)
     {
         RenderInfo info = renderPool.obtain();
         info.x = MathUtils.floor(x) + 0.5f;
         info.y = MathUtils.floor(y) + 0.5f;
         info.layer = layer;
         info.texture = texture.getTexture();
-        info.width = texture.getRegionWidth();
+        info.width = direction == GameObject.Direction.Left ? -texture
+                .getRegionWidth() : texture.getRegionWidth();
         info.height = texture.getRegionHeight();
         info.meshtype = spriteMesh;
         info.u0 = texture.getU();

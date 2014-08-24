@@ -6,10 +6,19 @@ import com.ludumdare.codebase.Renderer;
 public abstract class GameObject
 {
     Vector2 position;
+    protected float layer;
+
+    public enum Direction
+    {
+        Up, Left, Down, Right
+    };
+
+    protected Direction direction;
 
     public GameObject()
     {
         position = new Vector2();
+        direction = Direction.Right;
     }
 
     public abstract void update();
@@ -31,4 +40,25 @@ public abstract class GameObject
     {
         return position;
     }
+
+    public void setLayer(float layer)
+    {
+        this.layer = layer;
+    }
+
+    public float getLayer()
+    {
+        return layer;
+    }
+
+    public void setDirection(Direction direction)
+    {
+        this.direction = direction;
+    }
+
+    public Direction getDirection()
+    {
+        return direction;
+    }
+
 }

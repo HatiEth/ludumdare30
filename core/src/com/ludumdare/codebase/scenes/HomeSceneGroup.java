@@ -14,9 +14,9 @@ public class HomeSceneGroup extends SceneGroup
     protected KitchenScene kitchen;
 
     final TransitZone sleepRoomKitchenTransit;
-    final TransitZone kitchenSleepRoomTransit;
-    final TransitZone kitchenFloorTransit;
-    final TransitZone floorSleepRoomTransit;
+    // final TransitZone kitchenSleepRoomTransit;
+    // final TransitZone kitchenFloorTransit;
+    // final TransitZone floorSleepRoomTransit;
 
     ShapeRenderer sr;
 
@@ -27,24 +27,25 @@ public class HomeSceneGroup extends SceneGroup
         kitchen = new KitchenScene(gameData);
         floor = new FloorScene(gameData);
 
-        setActiveScene(sleepRoom);
-
-        sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen, new Rectangle(
-                960 - 64, -540, 64, 1080));
+        sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen,
+                sleepRoom.pathEngine.createNode(960 - 32, 0, 0), new Rectangle(
+                        960 - 64, -540, 64, 1080));
         sleepRoomKitchenTransit.activate();
 
-        kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new Rectangle(
-                -960, -540, 64, 1080));
-        kitchenSleepRoomTransit.activate();
+        // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
+        // Rectangle(
+        // -960, -540, 64, 1080));
+        // kitchenSleepRoomTransit.activate();
+        //
+        // kitchenFloorTransit = addTransit(kitchen, floor, new Rectangle(
+        // 960 - 64, -540, 64, 1080));
+        // kitchenFloorTransit.activate();
+        //
+        // floorSleepRoomTransit = addTransit(floor, sleepRoom, new Rectangle(
+        // 960 - 64, -540, 64, 1080));
+        // floorSleepRoomTransit.activate();
 
-        kitchenFloorTransit = addTransit(kitchen, floor, new Rectangle(
-                960 - 64, -540, 64, 1080));
-        kitchenFloorTransit.activate();
-
-        floorSleepRoomTransit = addTransit(floor, sleepRoom, new Rectangle(
-                960 - 64, -540, 64, 1080));
-        floorSleepRoomTransit.activate();
-
+        setActiveScene(sleepRoom);
         sr = new ShapeRenderer();
 
         sleepRoom.addObject(gameData.haraldGameObject);
@@ -60,6 +61,8 @@ public class HomeSceneGroup extends SceneGroup
         renderer.renderAll();
 
         debugDrawTransitZones(renderer);
+
+        activeScene.pathEngine.debugDraw(renderer);
     }
 
     @Override
@@ -91,6 +94,7 @@ public class HomeSceneGroup extends SceneGroup
             {
                 activeScene.pathEngine.setTargetPosition(gameData.cameraControl
                         .screenToWorld(screenX, screenY));
+
                 return false;
             }
 

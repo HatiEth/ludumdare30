@@ -8,7 +8,6 @@ import com.ludumdare.codebase.Renderer;
 public abstract class SpriteObject extends GameObject
 {
     protected Texture spriteHandle;
-    protected float layer;
 
     public SpriteObject(String spriteFilePath)
     {
@@ -20,16 +19,8 @@ public abstract class SpriteObject extends GameObject
     @Override
     public void render(Renderer renderer)
     {
-        renderer.drawStaticSprite(spriteHandle, position.x, position.y, layer);
+        renderer.drawStaticSprite(spriteHandle, position.x, position.y, layer,
+                direction);
     }
 
-    public void setLayer(float layer)
-    {
-        this.layer = layer;
-    }
-
-    public float getLayer()
-    {
-        return layer;
-    }
 }

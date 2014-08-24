@@ -52,6 +52,6 @@ public class AnimatedSpriteObject extends SpriteObject
     public void render(Renderer renderer)
     {
         renderer.drawAnimatedSprite(animation.getKeyFrame(stateTime, true),
-                position.x, position.y, layer);
+                position.x, position.y, layer, this.direction);
     }
 }

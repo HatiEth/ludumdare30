@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.Renderer;
 
 public abstract class SceneGroup extends Scene
@@ -63,10 +64,12 @@ public abstract class SceneGroup extends Scene
         activeScene.render(renderer);
     }
 
-    public TransitZone addTransit(Scene from, Scene to, Rectangle transitArea)
+    public TransitZone addTransit(Scene from, Scene to, PathNode pathNode,
+            Rectangle transitArea)
     {
-        TransitZone zone = new TransitZone(from, to, transitArea);
+        TransitZone zone = new TransitZone(from, to, pathNode, transitArea);
         this.transitZones.add(zone);
+        this.activityZones.add(zone);
         return zone;
     }
 

@@ -1,8 +1,11 @@
 package com.ludumdare.codebase.scenes;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.ludumdare.codebase.ActivityZone;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.PathEngine;
+import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.Renderer;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
@@ -20,6 +23,7 @@ public abstract class Scene
     protected int dayCounter = 0;
 
     Array<GameObject> objects;
+    Array<ActivityZone> activityZones;
     protected PathEngine pathEngine;
     protected final GameData gameData;
 
@@ -28,6 +32,7 @@ public abstract class Scene
         this.gameData = gameData;
         pathEngine = new PathEngine();
         objects = new Array<GameObject>(false, 128);
+        activityZones = new Array<ActivityZone>(false, 128);
     }
 
     public void update()
@@ -45,6 +50,7 @@ public abstract class Scene
         {
             o.render(renderer);
         }
+
     }
 
     public void addObject(GameObject o)
