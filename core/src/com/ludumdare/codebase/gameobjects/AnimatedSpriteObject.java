@@ -13,8 +13,8 @@ public class AnimatedSpriteObject extends SpriteObject
     float stateTime;
     Animation animation;
 
-    public AnimatedSpriteObject(String spriteFilePath, int frameColumns,
-            int frameRows)
+    public AnimatedSpriteObject(String spriteFilePath, float animationTime,
+            int frameColumns, int frameRows)
     {
         super(spriteFilePath);
 
