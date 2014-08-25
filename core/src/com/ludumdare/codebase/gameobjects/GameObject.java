@@ -1,5 +1,6 @@
 package com.ludumdare.codebase.gameobjects;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
@@ -10,6 +11,7 @@ public abstract class GameObject
     protected float layer;
 
     float stateTime;
+    ObjectState transitToState;
     public ObjectState objectState;
 
     public enum Direction
@@ -69,8 +71,28 @@ public abstract class GameObject
 
     public void enterState(ObjectState state)
     {
+        if (objectState == state) return;
+
+        if (objectState == ObjectState.TAKE_SEAT
+                && state != ObjectState.TAKE_SEAT)
+        {
+            transitToState = state;
+            stateTime = MathUtils.clamp(stateTime, 0, 0.4f);
+            objectState = ObjectState.UNSEAT;
+            return;
+        }
+
         objectState = state;
         stateTime = 0.0f;
     }
 
+    public void move(float x, float y)
+    {
+        if (objectState == objectState.UNSEAT)
+        {
+            return;
+        }
+
+        this.position.add(x, y);
+    }
 }

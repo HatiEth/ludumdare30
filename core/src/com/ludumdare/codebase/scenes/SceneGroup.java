@@ -1,14 +1,7 @@
 package com.ludumdare.codebase.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
-import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.Renderer;
 
 public abstract class SceneGroup extends Scene

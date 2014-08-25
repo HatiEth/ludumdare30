@@ -1,7 +1,6 @@
 package com.ludumdare.codebase.gameobjects;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.ludumdare.codebase.ObjectState;
 
 public class HeadGO extends AnimatedSpriteObject
 {

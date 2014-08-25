@@ -19,7 +19,7 @@ public class FrontOfHouseScene extends Scene
     public void onEnter(Scene from)
     {
         pathEngine.setGameObject(gameData.haraldGameObject);
-        gameData.haraldGameObject.getPosition().set(-882, -354);
+        gameData.haraldGameObject.getPosition().set(-442, -220);
     }
 
 }

@@ -1,11 +1,8 @@
 package com.ludumdare.codebase;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -24,6 +21,7 @@ public class PathEngine
     PathNode start;
     PathNode target;
     Vector3 direction;
+    PathNode lastTarget;
 
     public PathEngine()
     {
@@ -43,21 +41,36 @@ public class PathEngine
     {
         if (gameObject != null)
         {
-            if (start != null)
-            {
-                this.start.layer = gameObject.getLayer();
-                this.start.worldPosition = gameObject.getPosition();
-            }
-            else
-            {
-                this.start = new PathNode(gameObject.getPosition(),
-                        gameObject.getLayer());
-            }
+
+            this.start = new PathNode(gameObject.getPosition(),
+                    gameObject.getLayer());
 
             PathNode targetedNode = getNodeAt(targetPosition);
-            if (targetedNode != null)
+            if (((lastTarget != null && lastTarget.isRepeatable) || lastTarget != targetedNode)
+                    && targetedNode != null)
             {
                 target = targetedNode;
+                PathNode tmpTarget = target;
+                PathNode startingToLeaf = tmpTarget;
+                float shortestDst = Float.POSITIVE_INFINITY;
+                for (int i = 0; i < 2; ++i)
+                {
+                    tmpTarget = target;
+                    while (tmpTarget != null)
+                    {
+                        float dst2 = Vector2.dst2(gameObject.getPosition().x,
+                                gameObject.getPosition().y,
+                                tmpTarget.worldPosition.x,
+                                tmpTarget.worldPosition.y);
+                        if (dst2 < shortestDst)
+                        {
+                            startingToLeaf = tmpTarget;
+                            shortestDst = dst2;
+                        }
+                        tmpTarget = tmpTarget.prev[i];
+                    }
+                }
+                target = startingToLeaf;
             }
             else
             {
@@ -96,27 +109,43 @@ public class PathEngine
                 if ((Math.abs(gameObject.getLayer() - target.layer) < 0.3f))
                 {
                     target.execute(gameObject);
-                    target = null;
-                    start = null;
 
-                    gameObject.enterState(ObjectState.IDLE);
+                    lastTarget = target;
+                    if (target.next != null)
+                    {
+                        start = target;
+                        target = start.next;
+
+                        if (target.worldPosition.x - gameObject.getPosition().x < 0)
+                        {
+                            gameObject.setDirection(GameObject.Direction.Left);
+                        }
+                        else
+                        {
+                            gameObject.setDirection(GameObject.Direction.Right);
+                        }
+                        gameObject.enterState(ObjectState.MOVE);
+                    }
+                    else
+                    {
+                        start = null;
+                        target = null;
+                    }
 
                     return;
                 }
             }
 
-            Vector2 p = gameObject.getPosition();
-
             // p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());
             if (!GameData.isDevMode)
             {
-                p.add(direction.x * 50.0f * 4.75f * 0.016f,
+                gameObject.move(direction.x * 50.0f * 4.75f * 0.016f,
                         direction.y * 25.0f * 4.75f * 0.016f);
             }
             else
             {
-                p.add(direction.x * 50.0f * 2 * 4.75f * 0.016f, direction.y
-                        * 25.0f * 2 * 4.75f * 0.016f);
+                gameObject.move(direction.x * 50.0f * 2 * 4.75f * 0.016f,
+                        direction.y * 25.0f * 2 * 4.75f * 0.016f);
             }
             // p.add(direction.x * 50.0f * 1.75f * 0.016f,
             // direction.y * 25.0f * 1.75f * 0.016f);
@@ -128,7 +157,7 @@ public class PathEngine
 
             direction.set(target.worldPosition, target.layer);
             direction.sub(gameObject.getPosition().x,
-                    gameObject.getPosition().y, gameObject.getLayer());
+                    gameObject.getPosition().y, 0);
 
             direction.nor();
         }
@@ -143,55 +172,61 @@ public class PathEngine
 
     public void debugDraw(Renderer renderer)
     {
-        ShapeRenderer sr = renderer.getShapeRenderer();
-
-        sr.begin(ShapeType.Filled);
-        for (PathNode p : pathLeaves)
+        if (GameData.isDevMode)
         {
-            sr.setColor(new Color(0, 0, 1, 0.5f));
-            if (p.clickableArea != null)
-            {
-                sr.rect(p.clickableArea.x, p.clickableArea.y,
-                        p.clickableArea.width, p.clickableArea.height);
-            }
-        }
-        sr.end();
+            ShapeRenderer sr = renderer.getShapeRenderer();
 
-        sr.begin(ShapeType.Line);
-        for (PathNode p : pathLeaves)
-        {
-            sr.setColor(Color.YELLOW);
-            sr.circle(p.worldPosition.x, p.worldPosition.y, 25.0f);
-            PathNode a = p;
-
-            sr.setColor(Color.CYAN);
-            sr.line(p.worldPosition.x, p.worldPosition.y, p.clickableArea.x,
-                    p.clickableArea.y);
-            sr.rect(p.clickableArea.x, p.clickableArea.y,
-                    p.clickableArea.width, p.clickableArea.height);
-
-            PathNode b = a.prev;
-            while (b != null)
-            {
-                sr.line(a.worldPosition, b.worldPosition);
-                a = b;
-                b = a.prev;
-            }
-        }
-        sr.end();
-
-        if (start != null && target != null)
-        {
             sr.begin(ShapeType.Filled);
-            sr.setColor(Color.NAVY);
-            sr.circle(target.worldPosition.x, target.worldPosition.y, 25.0f);
-            sr.circle(start.worldPosition.x, start.worldPosition.y, 25.0f);
+            for (PathNode p : pathLeaves)
+            {
+                sr.setColor(new Color(0, 0, 1, 0.5f));
+                if (p.clickableArea != null)
+                {
+                    sr.rect(p.clickableArea.x, p.clickableArea.y,
+                            p.clickableArea.width, p.clickableArea.height);
+                }
+            }
             sr.end();
 
             sr.begin(ShapeType.Line);
-            sr.setColor(Color.WHITE);
-            sr.line(gameObject.getPosition(), target.worldPosition);
+            for (PathNode p : pathLeaves)
+            {
+                sr.setColor(Color.YELLOW);
+                sr.circle(p.worldPosition.x, p.worldPosition.y, 25.0f);
+
+                sr.setColor(Color.CYAN);
+                sr.line(p.worldPosition.x, p.worldPosition.y,
+                        p.clickableArea.x, p.clickableArea.y);
+                sr.rect(p.clickableArea.x, p.clickableArea.y,
+                        p.clickableArea.width, p.clickableArea.height);
+
+                for (int i = 0; i < 2; ++i)
+                {
+                    PathNode a = p;
+                    PathNode b = a.prev[i];
+                    while (b != null)
+                    {
+                        sr.line(a.worldPosition, b.worldPosition);
+                        a = b;
+                        b = a.prev[i];
+                    }
+                }
+            }
             sr.end();
+
+            if (start != null && target != null)
+            {
+                sr.begin(ShapeType.Filled);
+                sr.setColor(Color.NAVY);
+                sr.circle(target.worldPosition.x, target.worldPosition.y, 25.0f);
+                sr.circle(start.worldPosition.x, start.worldPosition.y, 25.0f);
+                sr.end();
+
+                sr.begin(ShapeType.Line);
+                sr.setColor(Color.WHITE);
+                sr.line(gameObject.getPosition(), target.worldPosition);
+                sr.end();
+            }
         }
     }
 
@@ -209,14 +244,17 @@ public class PathEngine
             {
                 return p;
             }
-            while (a.prev != null) // traverse children if has any to get
-                                   // possible points
+            for (int i = 0; i < 2; ++i)
             {
-                a = a.prev;
-                if (a.isSelected(point))
+                while (a.prev[i] != null) // traverse children if has any to get
+                                          // possible points
                 {
+                    a = a.prev[i];
+                    if (a.isSelected(point))
+                    {
 
-                    return p;
+                        return p;
+                    }
                 }
             }
         }

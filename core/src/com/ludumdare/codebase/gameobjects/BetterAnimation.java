@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class BetterAnimation extends Animation
 {
     final private boolean isLooped;
-    private Texture spriteSheet;
 
     private BetterAnimation(float frameDuration, TextureRegion[] keyFrames,
             boolean isLooped)
@@ -50,6 +49,11 @@ public class BetterAnimation extends Animation
             }
         }
 
-        return new BetterAnimation(animationTime, frames, true);
+        return new BetterAnimation(animationTime, frames, isLooped);
+    }
+
+    public TextureRegion getCurrentFrame(float stateTime)
+    {
+        return super.getKeyFrame(stateTime, isLooped);
     }
 }

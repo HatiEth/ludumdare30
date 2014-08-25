@@ -1,6 +1,5 @@
 package com.ludumdare.codebase.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 
 public class Train extends SpriteObject
 {

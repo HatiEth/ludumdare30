@@ -12,10 +12,9 @@ public class HaraldGO extends AnimatedSpriteObject
 
     public HaraldGO()
     {
-        // super("walkcycletest.png", 0.5f, 5, 1);
-        // super("sprite_sheet_protagonist.png", 0.15f, 10, 1);
         BetterAnimation walkAnimation = BetterAnimation.createAnimation(
-                "sprite_sheet_protagonist.png", 10, 1, 0.15f, true);
+                "Charaktere/Protagonist/sprite_sheet_protagonist.png", 10, 1,
+                0.15f, true);
 
         this.addAnimation(ObjectState.IDLE, Direction.Down, walkAnimation);
         this.addAnimation(ObjectState.IDLE, Direction.Up, walkAnimation);
@@ -26,6 +25,16 @@ public class HaraldGO extends AnimatedSpriteObject
         this.addAnimation(ObjectState.MOVE, Direction.Left, walkAnimation);
         this.addAnimation(ObjectState.MOVE, Direction.Up, walkAnimation);
         this.addAnimation(ObjectState.MOVE, Direction.Down, walkAnimation);
+
+        BetterAnimation sitAnimation = BetterAnimation.createAnimation(
+                "Charaktere/Protagonist/sprite_sheet_sit down.png", 5, 1,
+                0.11f, false);
+
+        this.addAnimation(ObjectState.TAKE_SEAT, Direction.Right, sitAnimation);
+        this.addAnimation(ObjectState.TAKE_SEAT, Direction.Left, sitAnimation);
+
+        this.addAnimation(ObjectState.UNSEAT, Direction.Right, sitAnimation);
+        this.addAnimation(ObjectState.UNSEAT, Direction.Left, sitAnimation);
 
         head = new HeadGO();
         final GameObject attached = this;
@@ -43,6 +52,13 @@ public class HaraldGO extends AnimatedSpriteObject
             public void render(Renderer renderer)
             {
 
+            }
+
+            @Override
+            public void setDirection(Direction direction)
+            {
+                super.setDirection(direction);
+                attached.setDirection(direction);
             }
         };
     }
@@ -74,5 +90,18 @@ public class HaraldGO extends AnimatedSpriteObject
     public Vector2 getPosition()
     {
         return feeter.getPosition();
+    }
+
+    @Override
+    public void move(float x, float y)
+    {
+        feeter.move(x, y);
+    }
+
+    @Override
+    public void enterState(ObjectState state)
+    {
+        super.enterState(state);
+        if (feeter != null) feeter.enterState(state);
     }
 }

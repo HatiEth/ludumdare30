@@ -7,7 +7,6 @@ public class ActivityZone extends Rectangle
 {
 
     private boolean isActive;
-    private Rectangle rect;
 
     public ActivityZone()
     {

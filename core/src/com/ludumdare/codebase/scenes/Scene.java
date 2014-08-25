@@ -1,11 +1,9 @@
 package com.ludumdare.codebase.scenes;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.ActivityZone;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.PathEngine;
-import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.Renderer;
 import com.ludumdare.codebase.gameobjects.GameObject;
 

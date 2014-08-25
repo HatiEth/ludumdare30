@@ -3,7 +3,6 @@ package com.ludumdare.codebase.scenes;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.ActivityZone;
-import com.ludumdare.codebase.PathNode;
 
 public class TransitZone extends ActivityZone
 {

@@ -1,6 +1,7 @@
 package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.math.Vector2;
+import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
@@ -23,6 +24,7 @@ public class TransitNode extends PathNode
     @Override
     public void execute(GameObject o)
     {
+        o.enterState(ObjectState.IDLE);
         containedGroup.enterScene(to, from);
     }
 

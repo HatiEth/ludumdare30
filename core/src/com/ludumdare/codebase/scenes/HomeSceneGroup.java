@@ -3,13 +3,9 @@ package com.ludumdare.codebase.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
-import com.ludumdare.codebase.InteractionNode;
-import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
-import com.ludumdare.codebase.gameobjects.GameObject;
 
 public class HomeSceneGroup extends SceneGroup
 {
@@ -41,6 +37,11 @@ public class HomeSceneGroup extends SceneGroup
 
         floor.pathEngine.addLeaf(new TransitNode(this, floor, inFrontOfHouse,
                 new Vector2(960 - 32, -340), 0.0f, 960 - 32, -330, 64, 80));
+
+        inFrontOfHouse.pathEngine.addLeaf(new TransitNode(this, inFrontOfHouse,
+                haltestelle0, new Vector2(960 - 32, -280), 0.0f, 960 - 32,
+                -330, 64, 164));
+
         // sleepRoomKitchenTransit.activate();
 
         // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
@@ -63,6 +64,7 @@ public class HomeSceneGroup extends SceneGroup
         kitchen.addObject(gameData.haraldGameObject);
         floor.addObject(gameData.haraldGameObject);
         inFrontOfHouse.addObject(gameData.haraldGameObject);
+        haltestelle0.addObject(gameData.haraldGameObject);
     }
 
     @Override
@@ -99,11 +101,19 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchDown(int screenX, int screenY, int pointer,
                     int button)
             {
-                System.out.println(gameData.cameraControl.screenToWorld(
-                        screenX, screenY));
-                activeScene.pathEngine.setTargetPosition(gameData.cameraControl
-                        .screenToWorld(screenX, screenY));
 
+                switch (gameData.eventMode)
+                {
+                case Exploration:
+                    System.out.println(gameData.cameraControl.screenToWorld(
+                            screenX, screenY));
+                    activeScene.pathEngine
+                            .setTargetPosition(gameData.cameraControl
+                                    .screenToWorld(screenX, screenY));
+                    break;
+                default:
+                    break;
+                }
                 return false;
             }
 
