@@ -14,7 +14,7 @@ public class HaraldGO extends AnimatedSpriteObject
     {
         BetterAnimation walkAnimation = BetterAnimation.createAnimation(
                 "Charaktere/Protagonist/sprite_sheet_protagonist.png", 10, 1,
-                0.15f, true);
+                0.09f, true);
 
         this.addAnimation(ObjectState.IDLE, Direction.Down, walkAnimation);
         this.addAnimation(ObjectState.IDLE, Direction.Up, walkAnimation);

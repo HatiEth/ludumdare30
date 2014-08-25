@@ -37,6 +37,34 @@ public class PathEngine
         gameObject = o;
     }
 
+    private PathNode findTargetRecursive(PathNode p, float minDist)
+    {
+        float dstP = Vector2.dst2(gameObject.getPosition().x,
+                gameObject.getPosition().y, p.worldPosition.x,
+                p.worldPosition.y);
+        PathNode returnValue = null;
+
+        if (!p.isReject && dstP < minDist)
+        {
+            minDist = dstP;
+            returnValue = p;
+        }
+
+        for (PathNode prev : p.prevs)
+        {
+            float dstPrev = Vector2.dst2(gameObject.getPosition().x,
+                    gameObject.getPosition().y, prev.worldPosition.x,
+                    prev.worldPosition.y);
+
+            if (!prev.isReject && dstPrev < minDist * 0.75f)
+            {
+                returnValue = prev;
+                minDist = dstPrev;
+            }
+        }
+        return returnValue;
+    }
+
     public void setTargetPosition(Vector2 targetPosition)
     {
         if (gameObject != null)
@@ -53,39 +81,47 @@ public class PathEngine
                 PathNode tmpTarget = target;
                 PathNode startingToLeaf = tmpTarget;
                 float shortestDst = Float.POSITIVE_INFINITY;
-                for (int i = 0; i < 2; ++i)
+                target = findTargetRecursive(target, shortestDst);
+                lastTarget = target;
+                if (target == null)
                 {
-                    tmpTarget = target;
-                    while (tmpTarget != null)
-                    {
-                        float dst2 = Vector2.dst2(gameObject.getPosition().x,
-                                gameObject.getPosition().y,
-                                tmpTarget.worldPosition.x,
-                                tmpTarget.worldPosition.y);
-                        if (dst2 < shortestDst)
-                        {
-                            startingToLeaf = tmpTarget;
-                            shortestDst = dst2;
-                        }
-                        tmpTarget = tmpTarget.prev[i];
-                    }
+                    target = new PathNode(gameObject.getPosition(),
+                            gameObject.getLayer());
+                    return;
                 }
-                target = startingToLeaf;
+                if (target.isDynamic)
+                {
+                    target.execute(gameObject);
+
+                    if (target.worldPosition.x - gameObject.getPosition().x < 0)
+                    {
+                        gameObject.setDirection(GameObject.Direction.Left);
+                    }
+                    else
+                    {
+                        gameObject.setDirection(GameObject.Direction.Right);
+                    }
+
+                    target = null;
+                    start = null;
+                    return;
+                }
+
             }
             else
             {
+                if (Vector2.dst(gameObject.getPosition().x,
+                        gameObject.getPosition().y, targetPosition.x,
+                        targetPosition.y) < 50.0f)
+                {
+                    return;
+                }
                 this.target = new PathNode(targetPosition,
                         gameObject.getLayer());
+
+                lastTarget = target;
             }
 
-            if (target.worldPosition.x - gameObject.getPosition().x < 0)
-            {
-                gameObject.setDirection(GameObject.Direction.Left);
-            }
-            else
-            {
-                gameObject.setDirection(GameObject.Direction.Right);
-            }
             gameObject.enterState(ObjectState.MOVE);
 
             direction.set(target.worldPosition, target.layer);
@@ -104,6 +140,16 @@ public class PathEngine
             float dist2 = Vector2.dst2(gameObject.getPosition().x,
                     gameObject.getPosition().y, target.worldPosition.x,
                     target.worldPosition.y);
+
+            if (target.worldPosition.x - gameObject.getPosition().x < 0)
+            {
+                gameObject.setDirection(GameObject.Direction.Left);
+            }
+            else
+            {
+                gameObject.setDirection(GameObject.Direction.Right);
+            }
+
             if (dist2 < 100.0f)
             {
                 if ((Math.abs(gameObject.getLayer() - target.layer) < 0.3f))
@@ -111,19 +157,11 @@ public class PathEngine
                     target.execute(gameObject);
 
                     lastTarget = target;
-                    if (target.next != null)
+                    if (target.next != null && !target.next.isReject)
                     {
                         start = target;
                         target = start.next;
 
-                        if (target.worldPosition.x - gameObject.getPosition().x < 0)
-                        {
-                            gameObject.setDirection(GameObject.Direction.Left);
-                        }
-                        else
-                        {
-                            gameObject.setDirection(GameObject.Direction.Right);
-                        }
                         gameObject.enterState(ObjectState.MOVE);
                     }
                     else
@@ -170,6 +208,16 @@ public class PathEngine
         gameObject = null;
     }
 
+    private void drawLineRecursive(ShapeRenderer sr, PathNode p)
+    {
+        for (PathNode prev : p.prevs)
+        {
+            sr.line(p.worldPosition, prev.worldPosition);
+
+            drawLineRecursive(sr, prev);
+        }
+    }
+
     public void debugDraw(Renderer renderer)
     {
         if (GameData.isDevMode)
@@ -200,17 +248,7 @@ public class PathEngine
                 sr.rect(p.clickableArea.x, p.clickableArea.y,
                         p.clickableArea.width, p.clickableArea.height);
 
-                for (int i = 0; i < 2; ++i)
-                {
-                    PathNode a = p;
-                    PathNode b = a.prev[i];
-                    while (b != null)
-                    {
-                        sr.line(a.worldPosition, b.worldPosition);
-                        a = b;
-                        b = a.prev[i];
-                    }
-                }
+                drawLineRecursive(sr, p);
             }
             sr.end();
 
@@ -243,19 +281,6 @@ public class PathEngine
             if (a.isSelected(point))
             {
                 return p;
-            }
-            for (int i = 0; i < 2; ++i)
-            {
-                while (a.prev[i] != null) // traverse children if has any to get
-                                          // possible points
-                {
-                    a = a.prev[i];
-                    if (a.isSelected(point))
-                    {
-
-                        return p;
-                    }
-                }
             }
         }
         return null;

@@ -16,7 +16,7 @@ public abstract class GameObject
 
     public enum Direction
     {
-        Up, Left, Down, Right
+        Up, Left, Down, Right, NoChange
     };
 
     protected Direction direction;
@@ -61,7 +61,10 @@ public abstract class GameObject
 
     public void setDirection(Direction direction)
     {
-        this.direction = direction;
+        if (direction != Direction.NoChange)
+        {
+            this.direction = direction;
+        }
     }
 
     public Direction getDirection()

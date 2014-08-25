@@ -11,6 +11,7 @@ public class GameData
 {
     public static boolean isDevMode = true;
 
+    public final float CH_LAYER = 0.1f;
     public final float UPDATE_FREQUENCY = 0.016f;
 
     public final Camera2DControl cameraControl;
@@ -20,17 +21,20 @@ public class GameData
 
     public GameMode eventMode;
 
+    public int DayCounter;
+
     public GameData()
     {
+        DayCounter = 1;
         eventMode = GameMode.Exploration;
 
         cameraControl = new Camera2DControl(1920, 1080);
         cameraControl.setPosition(0, 0);
 
         haraldGameObject = new HaraldGO();
-        haraldGameObject.setLayer(0.1f);
+        haraldGameObject.setLayer(CH_LAYER);
 
         diebGameObject = new DiebGO();
-        diebGameObject.setLayer(0.1f);
+        diebGameObject.setLayer(CH_LAYER);
     }
 }

@@ -1,6 +1,7 @@
 package com.ludumdare.codebase;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.gameobjects.GameObject;
 
 /*
@@ -9,10 +10,12 @@ import com.ludumdare.codebase.gameobjects.GameObject;
 public class PathNode
 {
     PathNode next = null;
-    PathNode[] prev = null;
+    Array<PathNode> prevs;
 
     ActivityZone clickableArea;
     public boolean isRepeatable;
+    public boolean isReject;
+    public boolean isDynamic;
 
     Vector2 worldPosition;
     float layer;
@@ -25,9 +28,11 @@ public class PathNode
         clickableArea = new ActivityZone(x - halfWidth, y - halfHeight,
                 2 * halfWidth, 2 * halfHeight);
 
-        prev = new PathNode[2];
+        prevs = new Array<PathNode>();
 
         this.isRepeatable = isRepeatable;
+        this.isReject = false;
+
     }
 
     public PathNode(Vector2 position, float layer, float x, float y,
@@ -38,27 +43,30 @@ public class PathNode
         clickableArea = new ActivityZone(x - halfWidth, y - halfHeight,
                 2 * halfWidth, 2 * halfHeight);
 
-        prev = new PathNode[2];
+        prevs = new Array<PathNode>();
 
         this.isRepeatable = false;
+        this.isReject = false;
     }
 
     public PathNode(Vector2 position, float layer, boolean isRepeatable)
     {
         this.worldPosition = position;
         this.layer = layer;
-        prev = new PathNode[2];
+        prevs = new Array<PathNode>();
 
         this.isRepeatable = isRepeatable;
+        this.isReject = false;
     }
 
     public PathNode(Vector2 position, float layer)
     {
         this.worldPosition = position;
         this.layer = layer;
-        prev = new PathNode[2];
+        prevs = new Array<PathNode>();
 
         isRepeatable = false;
+        this.isReject = false;
     }
 
     public boolean isSelected(float x, float y)
@@ -76,15 +84,10 @@ public class PathNode
         this.next = next;
     }
 
-    public void setPrev(PathNode prev, int index)
+    public void addPrev(PathNode prev)
     {
-        this.prev[index] = prev;
+        this.prevs.add(prev);
         prev.setNext(this);
-    }
-
-    public PathNode getPrev(int index)
-    {
-        return prev[index];
     }
 
     public PathNode getNext()
@@ -97,4 +100,5 @@ public class PathNode
         System.out.println("Firing pathnode " + this);
         o.enterState(ObjectState.IDLE);
     }
+
 }

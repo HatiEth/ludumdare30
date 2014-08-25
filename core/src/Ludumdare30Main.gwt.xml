@@ -4,5 +4,6 @@
 	<source path="com/ludumdare/codebase" />
 	<source path="com/ludumdare/codebase/gameobjects" />
 	<source path="com/ludumdare/codebase/scenes" />
+	<source path="com/ludumdare/codebase/interactions" />
 	<source path="com/ludumdare/util" />
 </module>

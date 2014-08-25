@@ -1,6 +1,8 @@
 package com.ludumdare.codebase.scenes;
 
+import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.gameobjects.BackgroundGO;
 
 public class KitchenScene extends Scene
@@ -13,6 +15,12 @@ public class KitchenScene extends Scene
         super(gameData);
         background = new BackgroundGO("kueche.png");
         addObject(background);
+
+        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960,
+                400, true);
+        rejectZone.isReject = true;
+
+        pathEngine.addLeaf(rejectZone);
     }
 
     @Override
@@ -22,6 +30,7 @@ public class KitchenScene extends Scene
         if (from instanceof SleepingRoomScene)
         {
             gameData.haraldGameObject.getPosition().set(-882, -354);
+
         }
     }
 }

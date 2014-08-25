@@ -22,6 +22,10 @@ public abstract class Scene
 
     Array<GameObject> objects;
     Array<ActivityZone> activityZones;
+
+    Array<GameObject> removalQueue;
+    Array<GameObject> insertQueue;
+
     protected PathEngine pathEngine;
     protected final GameData gameData;
 
@@ -31,10 +35,26 @@ public abstract class Scene
         pathEngine = new PathEngine();
         objects = new Array<GameObject>(false, 128);
         activityZones = new Array<ActivityZone>(false, 128);
+
+        removalQueue = new Array<GameObject>();
+        insertQueue = new Array<GameObject>();
     }
 
     public void update()
     {
+        for (GameObject o : removalQueue)
+        {
+            objects.removeValue(o, true);
+        }
+
+        for (GameObject o : insertQueue)
+        {
+            objects.add(o);
+        }
+
+        insertQueue.clear();
+        removalQueue.clear();
+
         pathEngine.update();
         for (GameObject o : objects)
         {
@@ -53,13 +73,19 @@ public abstract class Scene
 
     public void addObject(GameObject o)
     {
-        objects.add(o);
+        // objects.add(o);
+        insertQueue.add(o);
     }
 
     public void addObject(GameObject o, float x, float y)
     {
-        objects.add(o);
+        insertQueue.add(o);
         o.setPosition(x, y);
+    }
+
+    public void remove(GameObject o)
+    {
+        objects.removeValue(o, true);
     }
 
     public abstract void onEnter(Scene from);
