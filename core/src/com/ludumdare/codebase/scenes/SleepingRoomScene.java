@@ -85,6 +85,8 @@ public class SleepingRoomScene extends Scene
                 new Vector2(-418, -268), 0.0f, -324, -56, 32, 32,
                 new TextInteractionEvent(this, gameData, false, new TextObject(
                         "texts/amy_pond_0.png", gameData.haraldGameObject,
+                        this, new Vector2(0, 350), 5.0f), new TextObject(
+                        "texts/amy_pond_1.png", gameData.haraldGameObject,
                         this, new Vector2(0, 350), 5.0f)));
         interaction.isRepeatable = true;
 
@@ -93,9 +95,6 @@ public class SleepingRoomScene extends Scene
         rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960, 400,
                 true);
         rejectZone.isReject = true;
-
-        // pathEngine.addLeaf(rejectZone);
-
     }
 
     @Override

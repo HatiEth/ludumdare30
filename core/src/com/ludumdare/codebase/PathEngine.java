@@ -87,6 +87,16 @@ public class PathEngine
                 {
                     target = new PathNode(gameObject.getPosition(),
                             gameObject.getLayer());
+
+                    if (targetPosition.x - gameObject.getPosition().x < 0)
+                    {
+                        gameObject.setDirection(GameObject.Direction.Left);
+                    }
+                    else
+                    {
+                        gameObject.setDirection(GameObject.Direction.Right);
+                    }
+
                     return;
                 }
                 if (target.isDynamic)
@@ -120,6 +130,15 @@ public class PathEngine
                         gameObject.getLayer());
 
                 lastTarget = target;
+
+                if (target.worldPosition.x - gameObject.getPosition().x < 0)
+                {
+                    gameObject.setDirection(GameObject.Direction.Left);
+                }
+                else
+                {
+                    gameObject.setDirection(GameObject.Direction.Right);
+                }
             }
 
             gameObject.enterState(ObjectState.MOVE);
@@ -140,15 +159,6 @@ public class PathEngine
             float dist2 = Vector2.dst2(gameObject.getPosition().x,
                     gameObject.getPosition().y, target.worldPosition.x,
                     target.worldPosition.y);
-
-            if (target.worldPosition.x - gameObject.getPosition().x < 0)
-            {
-                gameObject.setDirection(GameObject.Direction.Left);
-            }
-            else
-            {
-                gameObject.setDirection(GameObject.Direction.Right);
-            }
 
             if (dist2 < 100.0f)
             {
@@ -172,6 +182,15 @@ public class PathEngine
 
                     return;
                 }
+            }
+
+            if (target.worldPosition.x - gameObject.getPosition().x < 0)
+            {
+                gameObject.setDirection(GameObject.Direction.Left);
+            }
+            else
+            {
+                gameObject.setDirection(GameObject.Direction.Right);
             }
 
             // p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());

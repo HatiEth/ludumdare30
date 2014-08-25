@@ -32,5 +32,10 @@ public class KitchenScene extends Scene
             gameData.haraldGameObject.getPosition().set(-882, -354);
 
         }
+        if (from instanceof FloorScene)
+        {
+            gameData.haraldGameObject.getPosition().set(+882, -354);
+
+        }
     }
 }

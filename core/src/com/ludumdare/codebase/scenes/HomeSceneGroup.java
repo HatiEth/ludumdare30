@@ -87,7 +87,7 @@ public class HomeSceneGroup extends SceneGroup
         // 960 - 64, -540, 64, 1080));
         // floorSleepRoomTransit.activate();
 
-        setActiveScene(kitchen);
+        setActiveScene(sleepRoom);
         sr = new ShapeRenderer();
 
         sleepRoom.addObject(gameData.haraldGameObject);
