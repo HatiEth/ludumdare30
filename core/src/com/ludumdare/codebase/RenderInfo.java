@@ -40,8 +40,9 @@ public class RenderInfo implements Comparable<RenderInfo>
         if (layer < o.layer) return -1;
         else
         {
-            if (y < o.y) return 1;
-            if (y > o.y) return -1;
+            if (y < o.y) return 1; // y1 > y2 - draw y1
+            // behind
+            if (y > o.y) return -1; // else
             else
             {
                 return texture.getTextureObjectHandle()

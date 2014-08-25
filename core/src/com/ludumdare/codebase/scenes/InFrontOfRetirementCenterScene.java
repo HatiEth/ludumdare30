@@ -17,4 +17,11 @@ public class InFrontOfRetirementCenterScene extends Scene
         gameData.haraldGameObject.getPosition().set(-442, -220);
     }
 
+    @Override
+    public void create()
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }

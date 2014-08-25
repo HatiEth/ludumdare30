@@ -6,7 +6,6 @@ import com.ludumdare.codebase.InteractionNode;
 import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.gameobjects.BackgroundGO;
-import com.ludumdare.codebase.gameobjects.GameObject;
 import com.ludumdare.codebase.gameobjects.GameObject.Direction;
 import com.ludumdare.codebase.gameobjects.TextObject;
 import com.ludumdare.codebase.interactions.TextInteractionEvent;
@@ -27,12 +26,6 @@ public class SleepingRoomScene extends Scene
         foregroundLight.setLayer(10.0f);
         addObject(foregroundLight);
 
-        // addObject(gameData.diebGameObject);
-        // pathEngine.addLeaf(n);
-
-        addWindowInteraction();
-
-        addRejectAreas();
     }
 
     private void addRejectAreas()
@@ -133,5 +126,17 @@ public class SleepingRoomScene extends Scene
         window.addPrev(windowLook);
 
         pathEngine.addLeaf(window);
+    }
+
+    @Override
+    public void create()
+    {
+
+        // addObject(gameData.diebGameObject);
+        // pathEngine.addLeaf(n);
+
+        addWindowInteraction();
+
+        addRejectAreas();
     }
 }

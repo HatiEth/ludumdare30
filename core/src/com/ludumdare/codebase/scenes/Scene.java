@@ -27,7 +27,7 @@ public abstract class Scene
     Array<GameObject> insertQueue;
 
     protected PathEngine pathEngine;
-    protected final GameData gameData;
+    protected GameData gameData;
 
     public Scene(GameData gameData)
     {
@@ -55,7 +55,14 @@ public abstract class Scene
         insertQueue.clear();
         removalQueue.clear();
 
+        updateInternal();
+    }
+
+    protected void updateInternal()
+    {
+
         pathEngine.update();
+
         for (GameObject o : objects)
         {
             o.update();
@@ -73,7 +80,6 @@ public abstract class Scene
 
     public void addObject(GameObject o)
     {
-        // objects.add(o);
         insertQueue.add(o);
     }
 
@@ -89,4 +95,7 @@ public abstract class Scene
     }
 
     public abstract void onEnter(Scene from);
+
+    public abstract void create();
+
 }

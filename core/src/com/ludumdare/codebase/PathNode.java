@@ -16,6 +16,7 @@ public class PathNode
     public boolean isRepeatable;
     public boolean isReject;
     public boolean isDynamic;
+    public boolean isDisabled;
 
     Vector2 worldPosition;
     float layer;
@@ -32,6 +33,7 @@ public class PathNode
 
         this.isRepeatable = isRepeatable;
         this.isReject = false;
+        this.isDisabled = false;
 
     }
 
@@ -47,6 +49,7 @@ public class PathNode
 
         this.isRepeatable = false;
         this.isReject = false;
+        this.isDisabled = false;
     }
 
     public PathNode(Vector2 position, float layer, boolean isRepeatable)
@@ -57,6 +60,7 @@ public class PathNode
 
         this.isRepeatable = isRepeatable;
         this.isReject = false;
+        this.isDisabled = false;
     }
 
     public PathNode(Vector2 position, float layer)
@@ -65,8 +69,9 @@ public class PathNode
         this.layer = layer;
         prevs = new Array<PathNode>();
 
-        isRepeatable = false;
+        this.isRepeatable = false;
         this.isReject = false;
+        this.isDisabled = false;
     }
 
     public boolean isSelected(float x, float y)

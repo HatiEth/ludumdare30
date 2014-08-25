@@ -21,9 +21,6 @@ public class Ludumdare30Main extends ApplicationAdapter
     float timeAccumulator = 0.0f;
     float UPDATE_FREQUENCY = 0.016f;
 
-    SpriteBatch batch;
-    Texture img;
-
     Renderer renderer;
     Vector2 position;
 
@@ -38,10 +35,6 @@ public class Ludumdare30Main extends ApplicationAdapter
     {
         position = new Vector2();
         position.x = 50;
-
-        batch = new SpriteBatch();
-        img = new Texture("noTextureFound.png");
-        img.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
         gameData = new GameData();
 
@@ -104,7 +97,6 @@ public class Ludumdare30Main extends ApplicationAdapter
     public void dispose()
     {
         super.dispose();
-        img.dispose();
     }
 
 }

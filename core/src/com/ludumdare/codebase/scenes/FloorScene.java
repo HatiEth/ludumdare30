@@ -22,10 +22,6 @@ public class FloorScene extends Scene
         foregroundLight.setLayer(10.0f);
         addObject(foregroundLight);
 
-        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960,
-                400, true);
-        rejectZone.isReject = true;
-        pathEngine.addLeaf(rejectZone);
     }
 
     @Override
@@ -36,6 +32,15 @@ public class FloorScene extends Scene
         {
             gameData.haraldGameObject.getPosition().set(-882, -354);
         }
+    }
+
+    @Override
+    public void create()
+    {
+        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960,
+                400, true);
+        rejectZone.isReject = true;
+        pathEngine.addLeaf(rejectZone);
     }
 
 }

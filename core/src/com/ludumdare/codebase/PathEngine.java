@@ -16,6 +16,8 @@ import com.ludumdare.codebase.gameobjects.GameObject;
  */
 public class PathEngine
 {
+    private ObjectState moveType = ObjectState.MOVE;
+
     Array<PathNode> pathLeaves;
     GameObject gameObject;
     PathNode start;
@@ -141,7 +143,7 @@ public class PathEngine
                 }
             }
 
-            gameObject.enterState(ObjectState.MOVE);
+            gameObject.enterState(moveType);
 
             direction.set(target.worldPosition, target.layer);
             direction.sub(start.worldPosition.x, start.worldPosition.y,
@@ -172,7 +174,7 @@ public class PathEngine
                         start = target;
                         target = start.next;
 
-                        gameObject.enterState(ObjectState.MOVE);
+                        gameObject.enterState(moveType);
                     }
                     else
                     {
@@ -297,11 +299,16 @@ public class PathEngine
         for (PathNode p : pathLeaves)
         {
             PathNode a = p;
-            if (a.isSelected(point))
+            if (a.isSelected(point) && !a.isDisabled)
             {
                 return p;
             }
         }
         return null;
+    }
+
+    public void setMoveType(ObjectState moveType)
+    {
+        this.moveType = moveType;
     }
 }

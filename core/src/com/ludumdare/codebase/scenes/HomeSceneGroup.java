@@ -36,9 +36,6 @@ public class HomeSceneGroup extends SceneGroup
                 gameData);
         retirementCenterLeft = new RetirementCenterLeftScene(gameData);
 
-        // sleepRoomKitchenTransit = addTransit(sleepRoom, kitchen,
-        // new TransitNode(sleepRoom.pathEngine, 960 - 32, 0),
-        // new Rectangle(960 - 64, -540, 64, 1080));
         sleepRoom.pathEngine.addLeaf(new TransitNode(this, sleepRoom, kitchen,
                 new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
 
@@ -59,20 +56,30 @@ public class HomeSceneGroup extends SceneGroup
                 haltestelle0, new Vector2(960 - 32, -280), 0.0f, 960 - 32,
                 -330, 64, 164));
 
-        haltestelle0.pathEngine.addLeaf(new TransitNode(this, haltestelle0,
-                inFrontOfHouse, new Vector2(-960 + 32, -280), 0.0f, -960 + 32,
-                -330, 64, 164));
+        // haltestelle0.pathEngine.addLeaf(new TransitNode(this, haltestelle0,
+        // inFrontOfHouse, new Vector2(-960 + 32, -280), 0.0f, -960 + 32,
+        // -330, 64, 164));
         haltestelle0.pathEngine.addLeaf(new TransitNode(this, haltestelle0,
                 trainScene, new Vector2(0, 0), 0, 0, 0, 64, 64));
 
-        trainScene.pathEngine.addLeaf(new TransitNode(this, trainScene,
-                haltestelle1, new Vector2(0, 0), 0.0f, 0, 0, 64, 64));
+        // trainScene.pathEngine.addLeaf(new TransitNode(this, trainScene,
+        // haltestelle1, new Vector2(0, 0), 0.0f, 0, 0, 64, 64));
 
         haltestelle1.pathEngine.addLeaf(new TransitNode(this, haltestelle1,
                 frontOfRetirementCenterScene, new Vector2(0, 0), 0.0f, 0, 0,
                 64, 64));
 
         // sleepRoomKitchenTransit.activate();
+
+        sleepRoom.create();
+        kitchen.create();
+        floor.create();
+        inFrontOfHouse.create();
+        haltestelle0.create();
+        trainScene.create();
+        haltestelle1.create();
+        frontOfRetirementCenterScene.create();
+        retirementCenterLeft.create();
 
         // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
         // Rectangle(
@@ -87,7 +94,7 @@ public class HomeSceneGroup extends SceneGroup
         // 960 - 64, -540, 64, 1080));
         // floorSleepRoomTransit.activate();
 
-        setActiveScene(sleepRoom);
+        setActiveScene(trainScene);
         sr = new ShapeRenderer();
 
         sleepRoom.addObject(gameData.haraldGameObject);
@@ -96,6 +103,7 @@ public class HomeSceneGroup extends SceneGroup
         inFrontOfHouse.addObject(gameData.haraldGameObject);
         haltestelle0.addObject(gameData.haraldGameObject);
         haltestelle1.addObject(gameData.haraldGameObject);
+        trainScene.addObject(gameData.haraldGameObject);
     }
 
     @Override
@@ -185,6 +193,13 @@ public class HomeSceneGroup extends SceneGroup
     @Override
     public void onEnter(Scene from)
     {
+
+    }
+
+    @Override
+    public void create()
+    {
+        // TODO Auto-generated method stub
 
     }
 }

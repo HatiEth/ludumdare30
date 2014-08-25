@@ -17,4 +17,10 @@ public class RetirementCenterRightScene extends Scene
         gameData.haraldGameObject.getPosition().set(-442, -220);
     }
 
+    @Override
+    public void create()
+    {
+
+    }
+
 }

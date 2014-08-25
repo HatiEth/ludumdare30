@@ -38,4 +38,13 @@ public class KitchenScene extends Scene
 
         }
     }
+
+    @Override
+    public void create()
+    {
+        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960,
+                400, true);
+        rejectZone.isReject = true;
+        pathEngine.addLeaf(rejectZone);
+    }
 }

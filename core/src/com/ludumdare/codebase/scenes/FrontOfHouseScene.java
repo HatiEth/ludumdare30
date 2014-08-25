@@ -16,10 +16,6 @@ public class FrontOfHouseScene extends Scene
         background = new BackgroundGO("vormhaus.png");
         addObject(background);
 
-        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 170, 960,
-                370, true);
-        rejectZone.isReject = true;
-        pathEngine.addLeaf(rejectZone);
     }
 
     @Override
@@ -27,5 +23,14 @@ public class FrontOfHouseScene extends Scene
     {
         pathEngine.setGameObject(gameData.haraldGameObject);
         gameData.haraldGameObject.getPosition().set(-442, -220);
+    }
+
+    @Override
+    public void create()
+    {
+        PathNode rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 170, 960,
+                370, true);
+        rejectZone.isReject = true;
+        pathEngine.addLeaf(rejectZone);
     }
 }
