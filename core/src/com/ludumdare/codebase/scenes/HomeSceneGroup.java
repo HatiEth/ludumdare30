@@ -51,6 +51,9 @@ public class HomeSceneGroup extends SceneGroup
 
         TransitNode tn;
 
+        dayDisplayScene.pathEngine.addLeaf(tn = new TransitNode(this,
+                dayDisplayScene, sleepRoom, new Vector2(), 0, 0, 0, 32, 32));
+
         // / Sleep room
         sleepRoom.pathEngine.addLeaf(tn = new TransitNode(this, sleepRoom,
                 kitchen, new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64,
@@ -130,9 +133,12 @@ public class HomeSceneGroup extends SceneGroup
                 retirementCenterRight, retirementCenterLeft, new Vector2(
                         -960 + 32, -280), 0.0f, -960 + 32, -330, 64, 500));
         allTransitNodes.add(tn);
+        // retirementCenterLeft.pathEngine.addLeaf(tn = new TransitNode(this,
+        // retirementCenterLeft, sleepRoom, new Vector2(-1200, -400), 0,
+        // -1200, -400, 64, 64));
         retirementCenterLeft.pathEngine.addLeaf(tn = new TransitNode(this,
-                retirementCenterLeft, sleepRoom, new Vector2(-1200, -400), 0,
-                -1200, -400, 64, 64));
+                retirementCenterLeft, dayDisplayScene,
+                new Vector2(-1200, -400), 0, -1200, -400, 64, 64));
         allTransitNodes.add(tn);
 
         // sleepRoomKitchenTransit.activate();

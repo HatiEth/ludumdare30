@@ -2,7 +2,7 @@ package com.ludumdare.codebase.scenes;
 
 import com.ludumdare.codebase.GameData;
 
-public class TimedScene extends Scene
+public abstract class TimedScene extends Scene
 {
     final float requiredTimeInSeconds;
     float currentTime;
@@ -29,12 +29,16 @@ public class TimedScene extends Scene
     public void update()
     {
         super.update();
-        currentTime += gameData.UPDATE_FREQUENCY;
+        currentTime = currentTime + gameData.UPDATE_FREQUENCY;
 
         if (currentTime >= requiredTimeInSeconds)
         {
             // exit TimedScene
             System.out.println("Exit scene");
+            timeout();
+
         }
     }
+
+    abstract protected void timeout();
 }
