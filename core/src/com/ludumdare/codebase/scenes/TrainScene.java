@@ -53,7 +53,7 @@ public class TrainScene extends Scene
             if (timer > timerAction1)
             {
                 diebPathEngine.setMoveType(ObjectState.TALK);
-                diebPathEngine.setTargetPosition(new Vector2(1200, 0));
+                diebPathEngine.setTargetPosition(new Vector2(1200, -160));
                 gameData.eventMode = GameMode.Exploration;
             }
         }
@@ -164,7 +164,7 @@ public class TrainScene extends Scene
     {
         drivingTime = 6.0f;
         diebPathEngine.setGameObject(gameData.diebGameObject);
-        gameData.diebGameObject.getPosition().set(1200, 0);
+        gameData.diebGameObject.getPosition().set(1200, -120);
 
         gameData.sceneGroup.deactivateAllTransits();
 

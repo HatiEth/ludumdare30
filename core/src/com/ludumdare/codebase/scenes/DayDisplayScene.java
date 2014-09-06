@@ -10,16 +10,16 @@ import com.ludumdare.codebase.gameobjects.GameObject;
 
 public class DayDisplayScene extends TimedScene
 {
+    final int maxDays = 8;
+
     BackgroundGO[] days;
-    int dayIndex;
     GameObject timerExecuteObject;
 
     public DayDisplayScene(GameData gamedata)
     {
         super(2.0f, gamedata);
-        dayIndex = 0;
-        days = new BackgroundGO[7];
-        for (int i = 0; i < 7; ++i)
+        days = new BackgroundGO[maxDays];
+        for (int i = 0; i < maxDays; ++i)
         {
             days[i] = new BackgroundGO("day" + (i + 1) + ".png");
         }
@@ -62,7 +62,6 @@ public class DayDisplayScene extends TimedScene
     public void onLeave(Scene to)
     {
         super.onLeave(to);
-        dayIndex = dayIndex + 1;
         gameData.eventMode = GameMode.Exploration;
         // final float GRAY = 0.53333333333333333333333333333333f;
         // Color backgroundColor = new Color(GRAY, GRAY, GRAY, 1.0f);
@@ -73,7 +72,7 @@ public class DayDisplayScene extends TimedScene
     public void render(Renderer renderer)
     {
         super.render(renderer);
-        days[dayIndex].render(renderer);
+        days[gameData.DayCounter - 1].render(renderer);
     }
 
     @Override

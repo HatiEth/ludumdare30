@@ -182,7 +182,8 @@ public class HomeSceneGroup extends SceneGroup
         credits.addObject(gameData.haraldGameObject);
 
         // setActiveScene(sleepRoom);
-        setActiveScene(dayDisplayScene);
+        // setActiveScene(dayDisplayScene);
+        setActiveScene(trainScene);
     }
 
     @Override
@@ -221,12 +222,12 @@ public class HomeSceneGroup extends SceneGroup
             public boolean touchDown(int screenX, int screenY, int pointer,
                     int button)
             {
-
+                System.out.println(gameData.cameraControl.screenToWorld(
+                        screenX, screenY));
                 switch (gameData.eventMode)
                 {
                 case Exploration:
-                    System.out.println(gameData.cameraControl.screenToWorld(
-                            screenX, screenY));
+
                     activeScene.pathEngine
                             .setTargetPosition(gameData.cameraControl
                                     .screenToWorld(screenX, screenY));
