@@ -33,6 +33,13 @@ public class TextInteractionEvent extends InteractionEvent
     @Override
     public void fire(GameObject o)
     {
+        if (current >= textObject.length) return;
+        System.out.println("click");
+        if (textObject[current].isAlive())
+        {
+            next();
+            if (current == textObject.length) return;
+        }
         if (!textObject[current].isAlive() && (current < textObject.length))
         {
             for (TextObject t : allTexts)
@@ -54,6 +61,16 @@ public class TextInteractionEvent extends InteractionEvent
         else
         {
             current = MathUtils.clamp(current + 1, 0, textObject.length - 1);
+        }
+    }
+
+    public void next()
+    {
+        if (current >= 0 && current < textObject.length)
+        {
+            System.out.println("Skip dialog");
+            textObject[current].die();
+            textObject[current].update();
         }
     }
 }

@@ -198,13 +198,13 @@ public class PathEngine
             // p = p.lerp(target.worldPosition, Gdx.graphics.getDeltaTime());
             if (!GameData.isDevMode)
             {
-                gameObject.move(direction.x * 50.0f * 4.75f * 0.016f,
-                        direction.y * 25.0f * 4.75f * 0.016f);
+                gameObject.move(direction.x * 50.0f * 1.5f * 4.75f * 0.016f,
+                        direction.y * 25.0f * 4.75f * 1.5f * 0.016f);
             }
             else
             {
-                gameObject.move(direction.x * 50.0f * 2 * 4.75f * 0.016f,
-                        direction.y * 25.0f * 2 * 4.75f * 0.016f);
+                gameObject.move(direction.x * 50.0f * 5 * 4.75f * 0.016f,
+                        direction.y * 25.0f * 5 * 4.75f * 0.016f);
             }
             // p.add(direction.x * 50.0f * 1.75f * 0.016f,
             // direction.y * 25.0f * 1.75f * 0.016f);

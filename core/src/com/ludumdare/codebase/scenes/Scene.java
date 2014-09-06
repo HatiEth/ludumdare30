@@ -18,6 +18,7 @@ public abstract class Scene
 {
     static final float UPDATE_FREQUENCY = 0.016f;
 
+    protected int lastVisistedDay = -1;
     protected int dayCounter = 0;
 
     Array<GameObject> objects;
@@ -95,6 +96,11 @@ public abstract class Scene
     }
 
     public abstract void onEnter(Scene from);
+
+    public void onLeave(Scene to)
+    {
+        lastVisistedDay = gameData.DayCounter;
+    }
 
     public abstract void create();
 

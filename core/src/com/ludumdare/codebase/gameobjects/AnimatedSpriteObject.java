@@ -6,7 +6,7 @@ import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
 
-public class AnimatedSpriteObject extends GameObject
+public abstract class AnimatedSpriteObject extends GameObject
 {
     EnumMap<ObjectState, EnumMap<GameObject.Direction, BetterAnimation>> animationMap;
 
@@ -86,4 +86,5 @@ public class AnimatedSpriteObject extends GameObject
                             + " o " + direction.name());
         }
     }
+
 }

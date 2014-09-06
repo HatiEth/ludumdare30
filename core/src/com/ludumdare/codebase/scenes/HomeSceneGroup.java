@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.ludumdare.codebase.GameData;
 import com.ludumdare.codebase.Renderer;
 
@@ -19,12 +20,19 @@ public class HomeSceneGroup extends SceneGroup
     protected InFrontOfRetirementCenterScene frontOfRetirementCenterScene;
     protected RetirementCenterLeftScene retirementCenterLeft;
     protected RetirementCenterRightScene retirementCenterRight;
+    CreditsScene credits;
 
     ShapeRenderer sr;
+
+    Array<TransitNode> allTransitNodes;
 
     public HomeSceneGroup(GameData gameData)
     {
         super(gameData);
+
+        allTransitNodes = new Array<TransitNode>();
+        gameData.sceneGroup = this;
+
         sleepRoom = new SleepingRoomScene(gameData);
         kitchen = new KitchenScene(gameData);
         floor = new FloorScene(gameData);
@@ -35,39 +43,94 @@ public class HomeSceneGroup extends SceneGroup
         frontOfRetirementCenterScene = new InFrontOfRetirementCenterScene(
                 gameData);
         retirementCenterLeft = new RetirementCenterLeftScene(gameData);
+        retirementCenterRight = new RetirementCenterRightScene(gameData);
+        credits = new CreditsScene(gameData);
 
-        sleepRoom.pathEngine.addLeaf(new TransitNode(this, sleepRoom, kitchen,
-                new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
+        TransitNode tn;
 
-        kitchen.pathEngine.addLeaf(new TransitNode(this, kitchen, sleepRoom,
-                new Vector2(-960 + 32, -350), 0.0f, -960 + 32, -380, 64, 164));
-        kitchen.pathEngine.addLeaf(new TransitNode(this, kitchen, floor,
-                new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 164));
+        // / Sleep room
+        sleepRoom.pathEngine.addLeaf(tn = new TransitNode(this, sleepRoom,
+                kitchen, new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64,
+                258));
+        allTransitNodes.add(tn);
 
-        floor.pathEngine.addLeaf(new TransitNode(this, floor, kitchen,
-                new Vector2(-960 + 32, -350), 0.0f, -960 + 32, -380, 64, 164));
-        floor.pathEngine.addLeaf(new TransitNode(this, floor, inFrontOfHouse,
-                new Vector2(960 - 32, -340), 0.0f, 960 - 32, -330, 64, 80));
+        // Kitchen
+        kitchen.pathEngine.addLeaf(tn = new TransitNode(this, kitchen,
+                sleepRoom, new Vector2(-960 + 32, -350), 0.0f, -960 + 32, -380,
+                64, 258));
+        allTransitNodes.add(tn);
+        kitchen.pathEngine.addLeaf(tn = new TransitNode(this, kitchen, floor,
+                new Vector2(960 - 32, -350), 0.0f, 960 - 32, -380, 64, 258));
+        allTransitNodes.add(tn);
 
-        inFrontOfHouse.pathEngine.addLeaf(new TransitNode(this, inFrontOfHouse,
-                floor, new Vector2(-960 + 32, -340), 0.0f, -960 + 32, -330, 64,
-                80));
-        inFrontOfHouse.pathEngine.addLeaf(new TransitNode(this, inFrontOfHouse,
-                haltestelle0, new Vector2(960 - 32, -280), 0.0f, 960 - 32,
-                -330, 64, 164));
+        // Floor
+        floor.pathEngine.addLeaf(tn = new TransitNode(this, floor, kitchen,
+                new Vector2(-960 + 32, -350), 0.0f, -960 + 32, -380, 64, 258));
+        allTransitNodes.add(tn);
+        floor.pathEngine.addLeaf(tn = new TransitNode(this, floor,
+                inFrontOfHouse, new Vector2(960 - 32, -340), 0.0f, 960 - 32,
+                -330, 64, 160));
+        allTransitNodes.add(tn);
 
-        // haltestelle0.pathEngine.addLeaf(new TransitNode(this, haltestelle0,
-        // inFrontOfHouse, new Vector2(-960 + 32, -280), 0.0f, -960 + 32,
-        // -330, 64, 164));
-        haltestelle0.pathEngine.addLeaf(new TransitNode(this, haltestelle0,
-                trainScene, new Vector2(0, 0), 0, 0, 0, 64, 64));
+        // In from of haralds house
+        inFrontOfHouse.pathEngine.addLeaf(tn = new TransitNode(this,
+                inFrontOfHouse, floor, new Vector2(-456, -224), 0.0f, -460, 42,
+                100, 240));
+        allTransitNodes.add(tn);
+        inFrontOfHouse.pathEngine.addLeaf(tn = new TransitNode(this,
+                inFrontOfHouse, haltestelle0, new Vector2(960 - 32, -280),
+                0.0f, 960 - 32, -330, 64, 500));
+        allTransitNodes.add(tn);
 
-        // trainScene.pathEngine.addLeaf(new TransitNode(this, trainScene,
-        // haltestelle1, new Vector2(0, 0), 0.0f, 0, 0, 64, 64));
+        // Haltestelle haralds seite
+        haltestelle0.pathEngine.addLeaf(tn = new TransitNode(this,
+                haltestelle0, inFrontOfHouse, new Vector2(-960 + 32, -280),
+                0.0f, -960 + 32, -330, 64, 164));
+        allTransitNodes.add(tn);
 
-        haltestelle1.pathEngine.addLeaf(new TransitNode(this, haltestelle1,
-                frontOfRetirementCenterScene, new Vector2(0, 0), 0.0f, 0, 0,
-                64, 64));
+        haltestelle0.pathEngine.addLeaf(tn = new TransitNode(this,
+                haltestelle0, trainScene, new Vector2(0, -484), 0, 0, -484,
+                960, 100));
+        allTransitNodes.add(tn);
+
+        // zug szene
+        trainScene.pathEngine.addLeaf(tn = new TransitNode(this, trainScene,
+                haltestelle1, new Vector2(0, -256), 0.0f, 0, 0, 256, 256));
+        allTransitNodes.add(tn);
+
+        // haltestelle center seite
+        haltestelle1.pathEngine.addLeaf(tn = new TransitNode(this,
+                haltestelle1, frontOfRetirementCenterScene, new Vector2(
+                        960 - 32, -280), 0.0f, 960 - 32, -330, 64, 500));
+        allTransitNodes.add(tn);
+
+        // in front of the retirement center
+        frontOfRetirementCenterScene.pathEngine.addLeaf(tn = new TransitNode(
+                this, frontOfRetirementCenterScene, haltestelle1, new Vector2(
+                        -960 + 32, -280), 0.0f, -960 + 32, -330, 64, 164));
+        allTransitNodes.add(tn);
+        frontOfRetirementCenterScene.pathEngine.addLeaf(tn = new TransitNode(
+                this, frontOfRetirementCenterScene, retirementCenterLeft,
+                new Vector2(282, -246), 0, 272, -20, 212, 208));
+        allTransitNodes.add(tn);
+        retirementCenterLeft.pathEngine.addLeaf(tn = new TransitNode(this,
+                retirementCenterLeft, retirementCenterRight, new Vector2(
+                        960 - 32, -280), 0.0f, 960 - 32, -330, 64, 500));
+        allTransitNodes.add(tn);
+
+        // retirement center parts
+        retirementCenterLeft.pathEngine.addLeaf(tn = new TransitNode(this,
+                retirementCenterLeft, retirementCenterRight, new Vector2(
+                        960 - 32, -280), 0.0f, 960 - 32, -330, 64, 500));
+        allTransitNodes.add(tn);
+        retirementCenterRight.pathEngine.addLeaf(tn = new TransitNode(this,
+                retirementCenterRight, retirementCenterLeft, new Vector2(
+                        -960 + 32, -280), 0.0f, -960 + 32, -330, 64, 500));
+        allTransitNodes.add(tn);
+        retirementCenterLeft.pathEngine.addLeaf(tn = new TransitNode(this,
+                retirementCenterLeft, sleepRoom, new Vector2(-1200, -400), 0,
+                -1200, -400, 64, 64));
+        allTransitNodes.add(tn);
 
         // sleepRoomKitchenTransit.activate();
 
@@ -80,7 +143,8 @@ public class HomeSceneGroup extends SceneGroup
         haltestelle1.create();
         frontOfRetirementCenterScene.create();
         retirementCenterLeft.create();
-
+        retirementCenterRight.create();
+        credits.create();
         // kitchenSleepRoomTransit = addTransit(kitchen, sleepRoom, new
         // Rectangle(
         // -960, -540, 64, 1080));
@@ -94,7 +158,7 @@ public class HomeSceneGroup extends SceneGroup
         // 960 - 64, -540, 64, 1080));
         // floorSleepRoomTransit.activate();
 
-        setActiveScene(trainScene);
+        setActiveScene(sleepRoom);
         sr = new ShapeRenderer();
 
         sleepRoom.addObject(gameData.haraldGameObject);
@@ -102,8 +166,12 @@ public class HomeSceneGroup extends SceneGroup
         floor.addObject(gameData.haraldGameObject);
         inFrontOfHouse.addObject(gameData.haraldGameObject);
         haltestelle0.addObject(gameData.haraldGameObject);
-        haltestelle1.addObject(gameData.haraldGameObject);
         trainScene.addObject(gameData.haraldGameObject);
+        haltestelle1.addObject(gameData.haraldGameObject);
+        frontOfRetirementCenterScene.addObject(gameData.haraldGameObject);
+        retirementCenterLeft.addObject(gameData.haraldGameObject);
+        retirementCenterRight.addObject(gameData.haraldGameObject);
+        credits.addObject(gameData.haraldGameObject);
     }
 
     @Override
@@ -111,8 +179,10 @@ public class HomeSceneGroup extends SceneGroup
     {
         super.render(renderer);
         renderer.renderAll();
-
-        activeScene.pathEngine.debugDraw(renderer);
+        if (gameData.isDevMode)
+        {
+            activeScene.pathEngine.debugDraw(renderer);
+        }
     }
 
     @Override
@@ -149,6 +219,9 @@ public class HomeSceneGroup extends SceneGroup
                     activeScene.pathEngine
                             .setTargetPosition(gameData.cameraControl
                                     .screenToWorld(screenX, screenY));
+                    break;
+                case Talk:
+                    gameData.activeDialog.fire(gameData.haraldGameObject);
                     break;
                 default:
                     break;
@@ -201,5 +274,21 @@ public class HomeSceneGroup extends SceneGroup
     {
         // TODO Auto-generated method stub
 
+    }
+
+    public void deactivateAllTransits()
+    {
+        for (TransitNode n : allTransitNodes)
+        {
+            n.isDisabled = true;
+        }
+    }
+
+    public void activateAllTransits()
+    {
+        for (TransitNode n : allTransitNodes)
+        {
+            n.isDisabled = false;
+        }
     }
 }

@@ -46,9 +46,12 @@ public abstract class SceneGroup extends Scene
         {
             System.out.println("Entering " + scene.getClass().getSimpleName());
         }
+
         activeScene = scene;
         activeScene.pathEngine.reset();
         activeScene.onEnter(from);
+        if (from != null) from.onLeave(activeScene);
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ludumdare.codebase.gameobjects;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.Renderer;
@@ -36,7 +37,7 @@ public class HaraldGO extends AnimatedSpriteObject
         this.addAnimation(ObjectState.UNSEAT, Direction.Right, sitAnimation);
         this.addAnimation(ObjectState.UNSEAT, Direction.Left, sitAnimation);
 
-        head = new HeadGO();
+        head = new HeadGO(0, 300, 3.0f, 3.0f, 2.5f, 5.0f);
         final GameObject attached = this;
         feeter = new GameObject()
         {
@@ -46,6 +47,10 @@ public class HaraldGO extends AnimatedSpriteObject
             {
                 attached.position.x = feeter.position.x;
                 attached.position.y = feeter.position.y + 142.5f;
+
+                head.position.x = feeter.position.x;
+                head.position.y = feeter.position.y;
+                ;
             }
 
             @Override
@@ -69,7 +74,20 @@ public class HaraldGO extends AnimatedSpriteObject
         // TODO Auto-generated method stub
         feeter.update();
         super.update();
+
+        if (objectState == ObjectState.TAKE_SEAT)
+        {
+            head.position.y = feeter.position.y
+                    - MathUtils.clamp(50 * stateTime, 0, 30);
+        }
+        if (objectState == ObjectState.UNSEAT)
+        {
+            head.position.y = feeter.position.y
+                    + MathUtils.clamp(50 * stateTime, 0, 30);
+        }
+
         head.update();
+        head.setLayer(this.getLayer());
 
     }
 
@@ -77,6 +95,7 @@ public class HaraldGO extends AnimatedSpriteObject
     public void render(Renderer renderer)
     {
         super.render(renderer);
+        head.render(renderer);
     }
 
     @Override
@@ -104,4 +123,12 @@ public class HaraldGO extends AnimatedSpriteObject
         super.enterState(state);
         if (feeter != null) feeter.enterState(state);
     }
+
+    @Override
+    public void setDirection(Direction direction)
+    {
+        head.setDirection(direction);
+        super.setDirection(direction);
+    }
+
 }

@@ -98,4 +98,9 @@ public abstract class GameObject
 
         this.position.add(x, y);
     }
+
+    public void setStateTime(float stateTime)
+    {
+        this.stateTime = stateTime;
+    }
 }

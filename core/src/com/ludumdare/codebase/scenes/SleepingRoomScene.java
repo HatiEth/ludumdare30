@@ -2,12 +2,14 @@ package com.ludumdare.codebase.scenes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.ludumdare.codebase.GameData;
+import com.ludumdare.codebase.GameMode;
 import com.ludumdare.codebase.InteractionNode;
 import com.ludumdare.codebase.ObjectState;
 import com.ludumdare.codebase.PathNode;
 import com.ludumdare.codebase.gameobjects.BackgroundGO;
 import com.ludumdare.codebase.gameobjects.GameObject.Direction;
 import com.ludumdare.codebase.gameobjects.TextObject;
+import com.ludumdare.codebase.interactions.DialogInteractionEvent;
 import com.ludumdare.codebase.interactions.TextInteractionEvent;
 
 public class SleepingRoomScene extends Scene
@@ -78,9 +80,9 @@ public class SleepingRoomScene extends Scene
                 new Vector2(-418, -268), 0.0f, -324, -56, 32, 32,
                 new TextInteractionEvent(this, gameData, false, new TextObject(
                         "texts/amy_pond_0.png", gameData.haraldGameObject,
-                        this, new Vector2(0, 350), 5.0f), new TextObject(
+                        this, new Vector2(0, 350), 2.0f), new TextObject(
                         "texts/amy_pond_1.png", gameData.haraldGameObject,
-                        this, new Vector2(0, 350), 5.0f)));
+                        this, new Vector2(0, 350), 2.0f)));
         interaction.isRepeatable = true;
 
         pathEngine.addLeaf(interaction);
@@ -88,6 +90,7 @@ public class SleepingRoomScene extends Scene
         rejectZone = new PathNode(new Vector2(0, 150), 0, 0, 150, 960, 400,
                 true);
         rejectZone.isReject = true;
+        pathEngine.addLeaf(rejectZone);
     }
 
     @Override
@@ -102,13 +105,35 @@ public class SleepingRoomScene extends Scene
     {
         pathEngine.setGameObject(gameData.haraldGameObject);
         gameData.haraldGameObject.setPosition(0, 0);
-        if (from == null) // starting
-        {
-            gameData.haraldGameObject.setPosition(-502, -296);
-        }
         if (from instanceof KitchenScene)
         {
             gameData.haraldGameObject.setPosition(806, -362);
+        }
+        else
+        {
+            gameData.haraldGameObject.setPosition(-502, -296);
+            if (from instanceof RetirementCenterLeftScene)
+            {
+                // do extra stuff here
+                gameData.haraldGameObject.setDirection(Direction.Right);
+                gameData.eventMode = GameMode.Exploration;
+            }
+        }
+
+        switch (gameData.DayCounter)
+        {
+        case 5:
+            dayCounter = dayCounter + 1;
+            System.out.println("Skip 5");
+            break;
+        case 9:
+            dayCounter = dayCounter + 1;
+            System.out.println("Skip 9");
+            break;
+        case 10:
+            // gameData.sceneGroup.activeScene = new CreditsScene(gameData);
+            gameData.sceneGroup.enterScene(gameData.sceneGroup.credits, this);
+            break;
         }
     }
 

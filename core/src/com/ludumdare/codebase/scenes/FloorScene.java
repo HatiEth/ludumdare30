@@ -32,6 +32,10 @@ public class FloorScene extends Scene
         {
             gameData.haraldGameObject.getPosition().set(-882, -354);
         }
+        if (from instanceof FrontOfHouseScene)
+        {
+            gameData.haraldGameObject.getPosition().set(882, -354);
+        }
     }
 
     @Override

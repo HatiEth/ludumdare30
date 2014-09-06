@@ -19,6 +19,7 @@ public class TransitNode extends PathNode
         this.containedGroup = group;
         this.from = from;
         this.to = to;
+        this.isRepeatable = true;
     }
 
     @Override
