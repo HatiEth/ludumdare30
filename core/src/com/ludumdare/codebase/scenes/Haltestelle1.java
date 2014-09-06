@@ -21,7 +21,6 @@ public class Haltestelle1 extends Scene
 
     InteractionNode policemanDialogDay3 = null;
     InteractionNode policemanDialogDay4 = null;
-    InteractionNode policemanDialogDay7 = null;
 
     public Haltestelle1(final GameData gameData)
     {
@@ -53,10 +52,10 @@ public class Haltestelle1 extends Scene
                     }
                 }, this, gameData, new TextObject(
                         "sprechblasen/2.Haltestelle/03.01_Polizist.png",
-                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        gameData.haraldGameObject, this, new Vector2(0, 520),
                         5.0f), new TextObject(
                         "sprechblasen/2.Haltestelle/03.02_Polizist.png",
-                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        gameData.haraldGameObject, this, new Vector2(0, 520),
                         5.0f)));
         interactionDay3.isRepeatable = true;
         interactionDay3.isDisabled = true;
@@ -79,11 +78,11 @@ public class Haltestelle1 extends Scene
                         policemanDialogDay4.isDisabled = true;
                     }
                 }, this, gameData, new TextObject(
-                        "sprechblasen/2.Haltestelle/03.01_Polizist.png",
-                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        "sprechblasen/2.Haltestelle/04.01_Polizist.png",
+                        gameData.haraldGameObject, this, new Vector2(0, 520),
                         5.0f), new TextObject(
-                        "sprechblasen/2.Haltestelle/03.02_Polizist.png",
-                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        "sprechblasen/2.Haltestelle/04.02_Polizist.png",
+                        gameData.haraldGameObject, this, new Vector2(0, 520),
                         5.0f)));
         interactionDay4.isRepeatable = true;
         interactionDay4.isDisabled = true;
@@ -92,6 +91,7 @@ public class Haltestelle1 extends Scene
         policeman.setPosition(-304, -67);
 
         pathEngine.addLeaf(interactionDay3);
+        pathEngine.addLeaf(interactionDay4);
 
     }
 
@@ -107,11 +107,7 @@ public class Haltestelle1 extends Scene
             addObject(policeman);
             break;
         case 4:
-            policemanDialogDay3.isDisabled = false;
-            addObject(policeman);
-            break;
-        case 6:
-            policemanDialogDay3.isDisabled = false;
+            policemanDialogDay4.isDisabled = false;
             addObject(policeman);
             break;
         }
@@ -136,9 +132,6 @@ public class Haltestelle1 extends Scene
             remove(policeman);
             break;
         case 4:
-            remove(policeman);
-            break;
-        case 6:
             remove(policeman);
             break;
         }

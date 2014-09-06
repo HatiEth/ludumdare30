@@ -121,12 +121,9 @@ public class Haltestelle0 extends Scene
         switch (gameData.DayCounter)
         {
         case 3:
-            if (lastVisistedDay == 1)
-            {
-                day3_talk.isDisabled = false;
-                addObject(day3_event);
-                pathEngine.setTargetPosition(new Vector2(880, -167));
-            }
+            day3_talk.isDisabled = false;
+            addObject(day3_event);
+            pathEngine.setTargetPosition(new Vector2(880, -167));
             break;
         }
     }
