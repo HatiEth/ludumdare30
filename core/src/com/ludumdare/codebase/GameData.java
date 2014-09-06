@@ -33,6 +33,8 @@ public class GameData
 
     public boolean hasGivenSeatToOma = false;
     public boolean toldPoliceManAboutBag = false;
+    public boolean toldPolicemanAboutEinbruch = false;
+    public boolean toldPolicemanAboutBeatup = false;
 
     public GameData()
     {

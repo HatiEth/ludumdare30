@@ -19,7 +19,9 @@ public class Haltestelle1 extends Scene
     BackgroundGO sign;
     PolizistGO policeman;
 
-    InteractionNode policemanDialog = null;
+    InteractionNode policemanDialogDay3 = null;
+    InteractionNode policemanDialogDay4 = null;
+    InteractionNode policemanDialogDay7 = null;
 
     public Haltestelle1(final GameData gameData)
     {
@@ -34,7 +36,34 @@ public class Haltestelle1 extends Scene
         addObject(background);
 
         policeman = new PolizistGO();
-        InteractionNode interaction = new InteractionNode(ObjectState.IDLE,
+        InteractionNode interactionDay3 = new InteractionNode(ObjectState.IDLE,
+                Direction.Left, new Vector2(-214, -292), 0.0f, -304, -67, 67,
+                285 * 0.5f, new DialogInteractionEvent(new OnDialogStartEvent()
+                {
+                    @Override
+                    public void start()
+                    {
+                        gameData.toldPolicemanAboutEinbruch = true;
+                    }
+
+                    @Override
+                    public void end()
+                    {
+                        policemanDialogDay3.isDisabled = true;
+                    }
+                }, this, gameData, new TextObject(
+                        "sprechblasen/2.Haltestelle/03.01_Polizist.png",
+                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        5.0f), new TextObject(
+                        "sprechblasen/2.Haltestelle/03.02_Polizist.png",
+                        gameData.haraldGameObject, this, new Vector2(0, 350),
+                        5.0f)));
+        interactionDay3.isRepeatable = true;
+        interactionDay3.isDisabled = true;
+        policemanDialogDay3 = interactionDay3;
+
+        // ----------------------------------
+        InteractionNode interactionDay4 = new InteractionNode(ObjectState.IDLE,
                 Direction.Left, new Vector2(-214, -292), 0.0f, -304, -67, 67,
                 285 * 0.5f, new DialogInteractionEvent(new OnDialogStartEvent()
                 {
@@ -47,19 +76,22 @@ public class Haltestelle1 extends Scene
                     @Override
                     public void end()
                     {
-                        policemanDialog.isDisabled = true;
+                        policemanDialogDay4.isDisabled = true;
                     }
-                }, this, gameData, new TextObject("texts/amy_pond_0.png",
+                }, this, gameData, new TextObject(
+                        "sprechblasen/2.Haltestelle/03.01_Polizist.png",
                         gameData.haraldGameObject, this, new Vector2(0, 350),
-                        5.0f), new TextObject("texts/amy_pond_1.png",
+                        5.0f), new TextObject(
+                        "sprechblasen/2.Haltestelle/03.02_Polizist.png",
                         gameData.haraldGameObject, this, new Vector2(0, 350),
                         5.0f)));
-        interaction.isRepeatable = true;
-        interaction.isDisabled = true;
-        policemanDialog = interaction;
+        interactionDay4.isRepeatable = true;
+        interactionDay4.isDisabled = true;
+        policemanDialogDay4 = interactionDay4;
+
         policeman.setPosition(-304, -67);
 
-        pathEngine.addLeaf(interaction);
+        pathEngine.addLeaf(interactionDay3);
 
     }
 
@@ -70,15 +102,16 @@ public class Haltestelle1 extends Scene
 
         switch (gameData.DayCounter)
         {
+        case 3:
+            policemanDialogDay3.isDisabled = false;
+            addObject(policeman);
+            break;
         case 4:
-            if (lastVisistedDay == 3)
-            {
-                policemanDialog.isDisabled = false;
-                addObject(policeman);
-            }
+            policemanDialogDay3.isDisabled = false;
+            addObject(policeman);
             break;
         case 6:
-            if (lastVisistedDay == 6) policemanDialog.isDisabled = false;
+            policemanDialogDay3.isDisabled = false;
             addObject(policeman);
             break;
         }
@@ -99,6 +132,9 @@ public class Haltestelle1 extends Scene
     {
         switch (gameData.DayCounter)
         {
+        case 3:
+            remove(policeman);
+            break;
         case 4:
             remove(policeman);
             break;
