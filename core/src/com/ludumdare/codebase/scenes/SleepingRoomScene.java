@@ -123,11 +123,11 @@ public class SleepingRoomScene extends Scene
         switch (gameData.DayCounter)
         {
         case 5:
-            dayCounter = dayCounter + 1;
+            gameData.DayCounter = gameData.DayCounter + 1;
             System.out.println("Skip 5");
             break;
         case 9:
-            dayCounter = dayCounter + 1;
+            gameData.DayCounter = gameData.DayCounter + 1;
             System.out.println("Skip 9");
             break;
         case 10:

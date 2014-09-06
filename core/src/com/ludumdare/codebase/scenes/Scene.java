@@ -19,7 +19,6 @@ public abstract class Scene
     static final float UPDATE_FREQUENCY = 0.016f;
 
     protected int lastVisistedDay = -1;
-    protected int dayCounter = 0;
 
     Array<GameObject> objects;
     Array<ActivityZone> activityZones;

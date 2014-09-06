@@ -10,6 +10,8 @@ import com.ludumdare.codebase.Renderer;
 
 public class HomeSceneGroup extends SceneGroup
 {
+
+    protected DayDisplayScene dayDisplayScene;
     protected SleepingRoomScene sleepRoom;
     protected KitchenScene kitchen;
     protected FloorScene floor;
@@ -33,6 +35,7 @@ public class HomeSceneGroup extends SceneGroup
         allTransitNodes = new Array<TransitNode>();
         gameData.sceneGroup = this;
 
+        dayDisplayScene = new DayDisplayScene(gameData);
         sleepRoom = new SleepingRoomScene(gameData);
         kitchen = new KitchenScene(gameData);
         floor = new FloorScene(gameData);
@@ -158,7 +161,6 @@ public class HomeSceneGroup extends SceneGroup
         // 960 - 64, -540, 64, 1080));
         // floorSleepRoomTransit.activate();
 
-        setActiveScene(sleepRoom);
         sr = new ShapeRenderer();
 
         sleepRoom.addObject(gameData.haraldGameObject);
@@ -172,6 +174,9 @@ public class HomeSceneGroup extends SceneGroup
         retirementCenterLeft.addObject(gameData.haraldGameObject);
         retirementCenterRight.addObject(gameData.haraldGameObject);
         credits.addObject(gameData.haraldGameObject);
+
+        // setActiveScene(sleepRoom);
+        setActiveScene(dayDisplayScene);
     }
 
     @Override
