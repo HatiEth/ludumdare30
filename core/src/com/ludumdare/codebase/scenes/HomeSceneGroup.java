@@ -183,7 +183,7 @@ public class HomeSceneGroup extends SceneGroup
 
         // setActiveScene(sleepRoom);
         // setActiveScene(dayDisplayScene);
-        setActiveScene(haltestelle1);
+        setActiveScene(retirementCenterRight);
     }
 
     @Override
